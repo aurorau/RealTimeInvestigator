@@ -25,8 +25,10 @@ public class EventDetailsDTO {
 	private String timeZoneOffset; 
 	private String imageName;
 	private String eventTriggeredTime;
-	
-	
+	private String userAgent;
+	private String referer;
+	private String xForwarded;
+	private String remoteAddress;
 	
 	public String getEventType() {
 		return eventType;
@@ -166,4 +168,29 @@ public class EventDetailsDTO {
 	public void setEventTriggeredTime(String eventTriggeredTime) {
 		this.eventTriggeredTime = eventTriggeredTime;
 	}
+	public String getUserAgent() {
+		return userAgent;
+	}
+	public void setUserAgent(String userAgent) {
+		this.userAgent = userAgent;
+	}
+	public String getReferer() {
+		return referer;
+	}
+	public void setReferer(String referer) {
+		this.referer = referer;
+	}
+	public String getxForwarded() {
+		return xForwarded;
+	}
+	public void setxForwarded(String xForwarded) {
+		this.xForwarded = xForwarded;
+	}
+	public String getRemoteAddress() {
+		return remoteAddress;
+	}
+	public void setRemoteAddress(String remoteAddress) {
+		this.remoteAddress = remoteAddress;
+	}
+	
 }

@@ -133,6 +133,20 @@
 		<artifactId>joda-time</artifactId>
 		<version>2.9.2</version>
 	</dependency>
+	
+	<!-- UserAgent dependency -->
+	<dependency>
+		<groupId>nl.bitwalker</groupId>
+		<artifactId>UserAgentUtils</artifactId>
+		<version>1.2.4</version>
+	</dependency>
+	
+	<!-- Geo IP -->
+	<dependency>
+		<groupId>com.maxmind.geoip</groupId>
+		<artifactId>geoip-api</artifactId>
+		<version>1.2.14</version>
+	</dependency>
   </dependencies>
 
   <build>

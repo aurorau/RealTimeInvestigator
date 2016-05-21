@@ -9,16 +9,17 @@ import com.aurora.rti.model.User;
 import com.aurora.rti.service.UserService;
 
 @Service("userService")
-@Transactional
 public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDao dao;
- 
+
+    @Transactional
     public User findById(int id) {
         return dao.findById(id);
     }
  
+    @Transactional
     public User findBySso(String sso) {
         return dao.findBySSO(sso);
     }

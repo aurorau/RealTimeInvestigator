@@ -34,7 +34,7 @@ $(document).ready(function() {
 	numberOfFingers = 0;
 	sendEventDetailsToController();
 	setInterval(function(){ 
-		//heartBeat();
+		heartBeat();
 	},20000);
 });
 
@@ -43,7 +43,7 @@ function heartBeat(){
 	//sessionID = window.name;
 	sessionID = sessionStorage.getItem('sessionID');
 	setTimeZoneInCookie();
-	$.get('heartBeat', {
+	$.get('dashboardFormController/heartBeat', {
 		sessionID : sessionID,
 		timeZoneOffset : timeZoneOffset
 	}, function(data) {

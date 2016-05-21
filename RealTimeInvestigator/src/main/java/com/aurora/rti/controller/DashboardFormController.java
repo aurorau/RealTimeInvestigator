@@ -32,33 +32,23 @@ public class DashboardFormController {
 		this.sessionDetailsService = sessionDetailsService;
 	}
 	
-	@RequestMapping(method = RequestMethod.GET, value = "/test")
-    public ResponseEntity<ResponseClass> test(HttpServletRequest request, HttpServletResponse response){
-		HttpHeaders headers = new HttpHeaders();
-		headers.set("Access-Control-Allow-Origin", "*");
-		headers.set("Access-Control-Allow-Methods", "GET,PUT,POST");
-		headers.set("Access-Control-Max-Age", "3600");
-		headers.set("Access-Control-Allow-Headers", "x-requested-with");
+	@RequestMapping(method = RequestMethod.GET, value = "/heartBeat")
+    public ResponseEntity<ResponseClass> heartBeat(HttpServletRequest request, HttpServletResponse response){
+		HttpHeaders headers = new GetHeaders().getHeaders();
 		ResponseClass res = new ResponseClass();
+		
+		String status = sessionDetailsService.heartBeat(request);
+		
 		return new ResponseEntity<ResponseClass>(res,headers,HttpStatus.CREATED);
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/postEventDetails")
     public ResponseEntity<ResponseClass> postEventDetails(HttpServletRequest request, HttpServletResponse response){
-		System.out.println("DONE");
+
 		HttpHeaders headers = new GetHeaders().getHeaders();
 		ResponseClass res = new ResponseClass();
 		
 		try{
-			
-/*			String sessionId = null;
-			sessionId = request.getParameter("sessionID");
-			 
-			if(sessionId == null || sessionId.equalsIgnoreCase("")) {
-				sessionId = request.getSession().getId();
-			}*/
-			
-			
 	        BufferedReader br = new BufferedReader(new InputStreamReader(request.getInputStream()));
 	        String json = "";
 	        if(br != null){
@@ -67,6 +57,11 @@ public class DashboardFormController {
 	        ObjectMapper mapper = new ObjectMapper();
 	        
 	        EventDetailsDTO dto = mapper.readValue(json, EventDetailsDTO.class);
+	        
+	        dto.setUserAgent(request.getHeader("User-Agent"));
+	        dto.setReferer(request.getHeader("referer"));
+	        dto.setxForwarded(request.getHeader("X-FORWARDED-FOR"));
+	        dto.setRemoteAddress(request.getRemoteAddr());
 	        
 	        if(dto.getSessionID() == null || dto.getSessionID().equalsIgnoreCase("")){
 	        	dto.setSessionID(request.getSession().getId());
