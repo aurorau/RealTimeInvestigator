@@ -1,16 +1,11 @@
 package com.aurora.rti.daoImpl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
-import org.apache.commons.lang.time.DateUtils;
 import org.hibernate.Criteria;
-import org.hibernate.Session;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.transform.Transformers;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Repository;
 import com.aurora.rti.dao.SessionDetailsDao;
 import com.aurora.rti.model.SessionDetails;

@@ -43,7 +43,7 @@ function heartBeat(){
 	//sessionID = window.name;
 	sessionID = sessionStorage.getItem('sessionID');
 	setTimeZoneInCookie();
-	$.get('dashboardFormController/heartBeat', {
+	$.get('RTIFormController/heartBeat', {
 		sessionID : sessionID,
 		timeZoneOffset : timeZoneOffset
 	}, function(data) {
@@ -392,7 +392,7 @@ function sendEventDetailsToController() {
 	
     
    	$.ajax({
-	    url: "dashboardFormController/postEventDetails",
+	    url: "RTIFormController/postEventDetails",
 		type: 'POST',
 		dataType: 'json',
 		data: JSON.stringify(dto),

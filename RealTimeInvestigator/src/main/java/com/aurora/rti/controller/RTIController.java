@@ -42,6 +42,16 @@ public class RTIController {
     public String loginPage() {
         return "login";
     }
+    
+    @RequestMapping(value = "/rti", method = RequestMethod.GET)
+    public String rti(ModelMap model) {
+    	
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String uname = auth.getName(); //get logged in username
+        
+        model.addAttribute("username", uname);
+        return "pages/PTHome";
+    }
  
     @RequestMapping(value="/logout", method = RequestMethod.GET)
     public String logoutPage (HttpServletRequest request, HttpServletResponse response) {

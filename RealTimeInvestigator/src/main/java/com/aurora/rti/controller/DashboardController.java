@@ -18,14 +18,4 @@ public class DashboardController {
         model.addAttribute("username", uname);
         return "pages/dashboard";
     }
-    
-    @RequestMapping(value = "/rti", method = RequestMethod.GET)
-    public String rti(ModelMap model) {
-    	
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        String uname = auth.getName(); //get logged in username
-        
-        model.addAttribute("username", uname);
-        return "pages/PTHome";
-    }
 }
