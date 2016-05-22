@@ -16,6 +16,8 @@ import com.aurora.rti.service.ProxyDetailsService;
 import com.aurora.rti.util.Constants;
 import com.aurora.rti.util.EventDetailsDTO;
 import com.aurora.rti.util.GeoLocation;
+import com.aurora.rti.util.ProxyDetailsDTO;
+import com.aurora.rti.util.UserDetailsDTO;
 
 @Service("proxyDetailsService")
 public class ProxyDetailsServiceImpl implements ProxyDetailsService {
@@ -78,6 +80,29 @@ public class ProxyDetailsServiceImpl implements ProxyDetailsService {
 			logger.error("++++++++++ Error in saveProxyDetailsService in ProxyDetailsServiceImpl :"+e);
 		}
 		return res;
+	}
+
+	@Transactional
+	public List<UserDetailsDTO> getPID(List<UserDetailsDTO> list) {
+		List<UserDetailsDTO> dtoList = null;
+		
+		try {
+			dtoList = proxyDetailsDao.getPID(list);
+		} catch(Exception e){
+			logger.error("++++++++++ Error in getPID in ProxyDetailsServiceImpl :"+e);
+		}
+		return dtoList;
+	}
+
+	@Transactional
+	public List<ProxyDetailsDTO> getProxyDetails(Long bid) {
+		List<ProxyDetailsDTO>  list =null;
+		try {
+			list = proxyDetailsDao.getProxyDetails(bid);
+		}catch (Exception e){
+			logger.error("++++++++++ Error in getProxyDetails in ProxyDetailsServiceImpl :"+e);
+		}
+		return list;
 	}
 
 }

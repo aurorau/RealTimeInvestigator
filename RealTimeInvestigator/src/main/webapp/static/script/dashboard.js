@@ -15,7 +15,7 @@ function getCurrentUserCount () {
 	var mobileUserCount = 0;
 	$.ajax({
         type: "GET",
-        url: "getCurrentUserCount",
+        url: "dashboardFormController/getCurrentUserCount",
         success: function(data) {
         	$("#userCountDynamicTable").html(data);
 	  		$("#userCountDynamicTable").displayTagAjax();
@@ -28,58 +28,71 @@ function getCurrentUserCount () {
 function getDeviceCount(){
 	$.ajax({
         type: "GET",
-        url: "getDeviceCount",
+        url: "dashboardFormController/getDeviceCount",
         success: function(data) {
-        	$('#mobileCount').text(data.result.mobileCount);
-        	$('#desktopCount').text(data.result.desktopCount);
-        	$('#fraudCount').text(data.result.fraudCount);
+        	$('#mobileCount').text(data.responce.mobileCount);
+        	$('#desktopCount').text(data.responce.desktopCount);
+        	$('#fraudCount').text(data.responce.fraudCount);
         }
 	});
 }
 
-function getUserDetailsBySessionId(sessionId, userId){
+function getUserDetailsBySessionId(sessionId,userId){
 	var q =$('#addDetailsSearchId').val();
+	var dv= "";
 	q = '';
 	var formdata = 'ajax=true&q='+q+'&sid='+sessionId;
 	$.ajax({
         type: "GET",
-        url: "getUserDetailsBySessionId",
+        url: "dashboardFormController/getUserDetailsBySessionId",
         data: formdata,
         success: function(data) {
           $("#eventDetailsTableId").html(data);
        	  $("#eventDetailsTableId").displayTagAjax();
-       	  getHeaderDetailsData(sessionId, userId);
+       	  
+          $("#deviceName").text($("#"+sessionId).val());
+          $("#userId").text("User :"+userId);
+       	  getHeaderDetailsData(sessionId);
+       	  getAnalyseData(sessionId);
         }
 	});
 }
 
-function getHeaderDetailsData(sessionId, userId){
-	q = '';
-	var formdata = 'ajax=true&q='+q+'&sid='+sessionId;
+function getAnalyseData(sessionId){
+	var formdata = 'ajax=true&sid='+sessionId;
 	$.ajax({
         type: "GET",
-        url: "analyseUserBySessionId",
+        url: "dashboardFormController/getAnalyseData",
         data: formdata,
         success: function(data) {
-        	if(data.result.eventCount != null) {
-        		var createdDate = '';
-        		var created
-        		$("#totalEvents").text(data.result.eventCount.TOTAL_COUNT);
-        		$("#numOfSessionTimeout").text(data.result.eventCount.NUM_OF_SESSION_TIMEOUT);
-        		$("#createdDate").text(getDate(data.result.eventCount.FIRST_ACCESS_TIME));
-        		$("#createdTime").text(getTime(data.result.eventCount.FIRST_ACCESS_TIME));
-        		$("#lastAccessDate").text(getDate(data.result.eventCount.LAST_ACCESS_TIME));
-        		$("#lastAccessTime").text(getTime(data.result.eventCount.LAST_ACCESS_TIME));
-        		$("#userStayingTime").text(data.result.eventCount.USER_STAYING_TIME+" min");
-        		$("#userIdleTime").text(data.result.eventCount.MAX_IDLE_TIME+" min");
-        		$("#avgTime").text(data.result.eventCount.AVG_TIME_TWO_EVENT+" sec");
-        		
-        		$("#deviceName").text(data.result.deviceType.deviceType);
-        		$("#userId").text("User :"+userId);
+        	if(data.responce != null) {
+        		eventAnalysis(data.responce.eventAnalyseMap);
+        		deviceAnalysis(data.responce.deviceAnalyseMap);
+        		userAnalysis(data.responce.userAnalyseMap);
+        	}
+        }
+	});
+}
 
-        		eventAnalysis(data);
-        		deviceAnalysis(data);
-        		userAnalysis(data);
+function getHeaderDetailsData(sessionId){
+	q = '';
+	var formdata = 'ajax=true&sid='+sessionId;
+	$.ajax({
+        type: "GET",
+        url: "dashboardFormController/getHeaderDetailsData",
+        data: formdata,
+        success: function(data) {
+        	if(data.responce != null) {
+        		var createdDate = '';
+        		$("#totalEvents").text(data.responce.TOTAL_COUNT);
+        		$("#numOfSessionTimeout").text(data.responce.NUM_OF_SESSION_TIMEOUT);
+        		$("#createdDate").text(getDate(data.responce.FIRST_ACCESS_TIME));
+        		$("#createdTime").text(getTime(data.responce.FIRST_ACCESS_TIME));
+        		$("#lastAccessDate").text(getDate(data.responce.LAST_ACCESS_TIME));
+        		$("#lastAccessTime").text(getTime(data.responce.LAST_ACCESS_TIME));
+        		$("#userStayingTime").text(data.responce.USER_STAYING_TIME+" min");
+        		$("#userIdleTime").text(data.responce.MAX_IDLE_TIME+" min");
+        		$("#avgTime").text(data.responce.AVG_TIME_TWO_EVENT+" sec");
         	}
         }
 	});
@@ -90,18 +103,18 @@ var persantageCount = function(totalEvent, specificEvent){
 }
 
 function userAnalysis(data){
-	var bowserIdPositive = data.result.userStatus.BROWSER_ID.POSITIVE;
-	var bowserIdNegeitive = data.result.userStatus.BROWSER_ID.NEGETIVE;
-	var OSNamePositive = data.result.userStatus.OS_NAME.POSITIVE;
-	var OSNameNegetive = data.result.userStatus.OS_NAME.NEGETIVE;
-	var proxyPositive = data.result.userStatus.PROXY_COUNT.POSITIVE;
-	var proxyNegetive = data.result.userStatus.PROXY_COUNT.NEGETIVE;
-	var timeZonePositive = data.result.userStatus.TIME_ZONE.POSITIVE;
-	var timeZoneNegetive = data.result.userStatus.TIME_ZONE.NEGETIVE;
-	var eventSequencePositive = data.result.userStatus.EVENT_SEQUENCE.POSITIVE;
-	var eventSequenceNegetive = data.result.userStatus.EVENT_SEQUENCE.NEGETIVE;
-	var userLocationPositive = data.result.userStatus.USER_LOCATION.POSITIVE;
-	var userLocationNegetive = data.result.userStatus.USER_LOCATION.NEGETIVE;
+	var bowserIdPositive = data.BROWSER_ID.POSITIVE;
+	var bowserIdNegeitive = data.BROWSER_ID.NEGETIVE;
+	var OSNamePositive = data.OS_NAME.POSITIVE;
+	var OSNameNegetive = data.OS_NAME.NEGETIVE;
+	var proxyPositive = data.PROXY_COUNT.POSITIVE;
+	var proxyNegetive = data.PROXY_COUNT.NEGETIVE;
+	var timeZonePositive = data.TIME_ZONE.POSITIVE;
+	var timeZoneNegetive = data.TIME_ZONE.NEGETIVE;
+	var eventSequencePositive = data.EVENT_SEQUENCE.POSITIVE;
+	var eventSequenceNegetive = data.EVENT_SEQUENCE.NEGETIVE;
+	var userLocationPositive = data.USER_LOCATION.POSITIVE;
+	var userLocationNegetive = data.USER_LOCATION.NEGETIVE;
 	
 	userAnalysisBarChart.setData(  [{ "y": "Browser ID", "a": bowserIdPositive, "b": bowserIdNegeitive },
 	                                { "y": "Time Zone", "a": timeZonePositive, "b": timeZoneNegetive },
@@ -111,43 +124,45 @@ function userAnalysis(data){
 	                                { "y": "User Location", "a": userLocationPositive, "b": userLocationNegetive}]);
 }
 function deviceAnalysis(data){
-	var userEventDesktop = data.result.deviceType.deviceTypeByEvents.desktopDevice*100;
-	var userEventMobile = data.result.deviceType.deviceTypeByEvents.mobileDevice*100;
-	var diamensionDesktop = data.result.deviceType.deviceTypeByDimention.desktopDevice*100;
-	var diamensionMobile = data.result.deviceType.deviceTypeByDimention.mobileDevice*100;
-	var viewDesktop = data.result.deviceType.deviceTypeByOrientation.desktopDevice*100;
-	var viewMobile = data.result.deviceType.deviceTypeByOrientation.mobileDevice*100;
+	var userEventDesktop = data.deviceTypeByEvents.desktopDevice*100;
+	var userEventMobile = data.deviceTypeByEvents.mobileDevice*100;
+	var diamensionDesktop = data.deviceTypeByDimention.desktopDevice*100;
+	var diamensionMobile = data.deviceTypeByDimention.mobileDevice*100;
+	var viewDesktop = data.deviceTypeByOrientation.desktopDevice*100;
+	var viewMobile = data.deviceTypeByOrientation.mobileDevice*100;
 	
 	deviceAnalysisBarChart.setData([{ "y": "by User Events", "a": userEventDesktop, "b": userEventMobile },
 	                                { "y": "by Dimention", "a": diamensionDesktop, "b": diamensionMobile },
 	                                { "y": "by Oriantation", "a": viewDesktop, "b": viewMobile}]);
 }
 function eventAnalysis(data){
-	var total_Events_Count = data.result.eventCount.TOTAL_COUNT;
-	var total_RF_Count = data.result.eventCount.USER_EVENT_COUNT.RF_COUNT;
-	var total_IMG_Count = data.result.eventCount.USER_EVENT_COUNT.TOTAL_IMG_COUNT;
-	var total_IMG_LC_Count = data.result.eventCount.USER_EVENT_COUNT.IMG_COUNT_LC;
-	var total_IMG_TS_Count = data.result.eventCount.USER_EVENT_COUNT.IMG_COUNT_TS;
-	var total_IMG_TM_Count = data.result.eventCount.USER_EVENT_COUNT.IMG_COUNT_TM;
-	var total_IMG_TZE_Count = data.result.eventCount.USER_EVENT_COUNT.IMG_COUNT_TZE;
-	var total_IMG_STZE_Count = data.result.eventCount.USER_EVENT_COUNT.IMG_COUNT_STZE;
-	var total_PARA_Count = data.result.eventCount.USER_EVENT_COUNT.TOTAL_P_COUNT;
-	var total_KP_Count = data.result.eventCount.USER_EVENT_COUNT.TYPE_COUNT_KP;
-	var total_BTN_Count = data.result.eventCount.USER_EVENT_COUNT.TOTAL_BTN_COUNT;
-	var total_OPTION_Count = data.result.eventCount.USER_EVENT_COUNT.TOTAL_OPTION_COUNT;
-	var total_SELECT_Count = data.result.eventCount.USER_EVENT_COUNT.TOTAL_SELECT_COUNT;
-	var total_A_Count = data.result.eventCount.USER_EVENT_COUNT.TOTAL_A_COUNT;
-	var total_INPUT_Count = data.result.eventCount.USER_EVENT_COUNT.TOTAL_INPT_COUNT;
-	var total_SE_Count = data.result.eventCount.USER_EVENT_COUNT.SE_COUNT;
-	var total_LC_Count = data.result.eventCount.USER_EVENT_COUNT.LC_COUNT;
-	var total_TS_Count = data.result.eventCount.USER_EVENT_COUNT.TS_COUNT;
-	var total_TM_Count = data.result.eventCount.USER_EVENT_COUNT.TM_COUNT;
-	var total_TZE_Count = data.result.eventCount.USER_EVENT_COUNT.TZE_COUNT;
-	var total_STZE_Count = data.result.eventCount.USER_EVENT_COUNT.STZE_COUNT;
+	var total_Events_Count = data.TOTAL_COUNT;
+	var total_RF_Count = data.RF_COUNT;
+	var total_IMG_Count = data.TOTAL_IMG_COUNT;
+	var total_IMG_LC_Count = data.IMG_COUNT_LC;
+	var total_IMG_TS_Count = data.IMG_COUNT_TS;
+	var total_IMG_TM_Count = data.IMG_COUNT_TM;
+	var total_IMG_TZE_Count = data.IMG_COUNT_TZE;
+	var total_IMG_STZE_Count = data.IMG_COUNT_STZE;
+	var total_PARA_Count = data.TOTAL_P_COUNT;
+	var total_KP_Count = data.TYPE_COUNT_KP;
+	var total_BTN_Count = data.TOTAL_BTN_COUNT;
+	var total_OPTION_Count = data.TOTAL_OPTION_COUNT;
+	var total_SELECT_Count = data.TOTAL_SELECT_COUNT;
+	var total_A_Count = data.TOTAL_A_COUNT;
+	var total_INPUT_Count = data.TOTAL_INPT_COUNT;
+	var total_SE_Count = data.SE_COUNT;
+	var total_LC_Count = data.LC_COUNT;
+	var total_DC_Count = data.DC_COUNT;
+	var total_TS_Count = data.TS_COUNT;
+	var total_TM_Count = data.TM_COUNT;
+	var total_TZE_Count = data.TZE_COUNT;
+	var total_STZE_Count = data.STZE_COUNT;
 	
 	
 	var chartData = [{"title": "Refresh Count","Percentage": -persantageCount(total_Events_Count,total_RF_Count),"val-int": total_RF_Count},
 	                 {"title": "LC Count","Percentage": -persantageCount(total_Events_Count,total_LC_Count),"val-int": total_LC_Count},
+	                 {"title": "DC Count","Percentage": -persantageCount(total_Events_Count,total_DC_Count),"val-int": total_DC_Count},
 	                 {"title": "TS Count","Percentage": -persantageCount(total_Events_Count,total_TS_Count),"val-int": total_TS_Count},
 	                 {"title": "TM Count","Percentage": -persantageCount(total_Events_Count,total_TM_Count),"val-int": total_TM_Count},
 	                 {"title": "SE Count","Percentage": -persantageCount(total_Events_Count,total_SE_Count),"val-int": total_SE_Count},

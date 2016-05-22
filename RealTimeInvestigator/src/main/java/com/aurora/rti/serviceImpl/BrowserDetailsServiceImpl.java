@@ -1,5 +1,7 @@
 package com.aurora.rti.serviceImpl;
 
+import java.util.List;
+
 import javax.transaction.Transactional;
 
 import nl.bitwalker.useragentutils.Browser;
@@ -20,6 +22,7 @@ import com.aurora.rti.service.BrowserDetailsService;
 import com.aurora.rti.service.ProxyDetailsService;
 import com.aurora.rti.util.Constants;
 import com.aurora.rti.util.EventDetailsDTO;
+import com.aurora.rti.util.UserDetailsDTO;
 
 @Service("browserDetailsService")
 public class BrowserDetailsServiceImpl implements BrowserDetailsService {
@@ -72,6 +75,38 @@ public class BrowserDetailsServiceImpl implements BrowserDetailsService {
 			logger.error("++++++++++ Error in saveBrowserDetails in BrowserDetailsServiceImpl :"+e);
 		}
 		return res;
+	}
+	
+	@Transactional
+	public List<UserDetailsDTO> analyseUserBySessionId(Long sid) {
+		List<UserDetailsDTO> list = null;
+		try {
+			list = browserDetailsDao.analyseUserBySessionId(sid);
+		} catch(Exception e){
+			logger.error("++++++++++ Error in analyseUserBySessionId in BrowserDetailsServiceImpl :"+e);
+		}
+		return list;
+	}
+	
+	@Transactional
+	public List<UserDetailsDTO> getUserDetailsBySessionId(String sortField,int order, int start, int gridTableSize, String searchq,Long sessionPK) {
+		List<UserDetailsDTO> list = null;
+		try {
+			list = browserDetailsDao.getUserDetailsBySessionId(sortField,order, start, gridTableSize, searchq,sessionPK);
+		} catch(Exception e){
+			logger.error("++++++++++ Error in getUserDetailsBySessionId in BrowserDetailsServiceImpl :"+e);
+		}
+		return list;
+	}
+	@Transactional
+	public int getUserDetailsCountBySessionId(String searchq, Long sessionPK) {
+		int count = 0;
+		try {
+			count = browserDetailsDao.getUserDetailsCountBySessionId(searchq, sessionPK);
+		}catch (Exception e){
+			logger.error("+++++++++ Error in getUserDetailsCountBySessionId in BrowserDetailsServiceImpl :"+e);
+		}
+		return count;
 	}
 
 }
