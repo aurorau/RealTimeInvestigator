@@ -2,10 +2,8 @@ package com.aurora.rti.controller;
 
 import java.util.List;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import org.apache.log4j.Logger;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
@@ -20,11 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
-
 import com.aurora.rti.service.CommonService;
-import com.aurora.rti.service.SessionDetailsService;
+import com.aurora.rti.service.ProxyDetailsService;
 import com.aurora.rti.util.Constants;
 import com.aurora.rti.util.GetHeaders;
+import com.aurora.rti.util.ProxyDetailsDTO;
 import com.aurora.rti.util.ResponseClass;
 import com.aurora.rti.util.UserCountDTO;
 import com.aurora.rti.util.UserDetailsDTO;
@@ -33,12 +31,12 @@ import com.aurora.rti.util.UserDetailsDTO;
 @RequestMapping("/dashboardFormController")
 public class DashboardFormController {
 	private static final Logger logger = Logger.getLogger(DashboardFormController.class);
-	private SessionDetailsService sessionDetailsService = null;
+	private ProxyDetailsService proxyDetailsService = null;
 	private CommonService commonService = null;
 	 
 	@Autowired
-	public void setSessionDetailsService(SessionDetailsService sessionDetailsService) {
-		this.sessionDetailsService = sessionDetailsService;
+	public void setproxyDetailsService(ProxyDetailsService proxyDetailsService) {
+		this.proxyDetailsService = proxyDetailsService;
 	}
 	
 	@Autowired
@@ -134,6 +132,18 @@ public class DashboardFormController {
 	     geaderDetailsMap = commonService.getAnalyseData(sid);
 	    
 	     res.setResponce(geaderDetailsMap);
+		 return new ResponseEntity<ResponseClass>(res,headers,HttpStatus.CREATED);
+	 }
+	 
+	 @RequestMapping(method = RequestMethod.GET, value = "/getProxyDetails")
+     public ResponseEntity<ResponseClass> getProxyDetails(HttpServletRequest request, HttpServletResponse response){
+
+		 HttpHeaders headers = new GetHeaders().getHeaders();
+		 ResponseClass res = new ResponseClass();
+		 Long bid = Long.parseLong((String)request.getParameter("bid"));
+	     List<ProxyDetailsDTO> list = proxyDetailsService.getProxyDetails(bid);
+	    
+	     res.setResponce(list);
 		 return new ResponseEntity<ResponseClass>(res,headers,HttpStatus.CREATED);
 	 }
 }

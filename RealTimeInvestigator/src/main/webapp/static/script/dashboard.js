@@ -98,6 +98,18 @@ function getHeaderDetailsData(sessionId){
 	});
 }
 
+function getLocationDetails(bid) {
+	var formdata = 'ajax=true&bid='+bid;
+	$.ajax({
+        type: "GET",
+        url: "dashboardFormController/getProxyDetails",
+        data: formdata,
+        success: function(data) {
+        	
+        }
+	});
+}
+
 var persantageCount = function(totalEvent, specificEvent){
 	return  Math.round((specificEvent/totalEvent) *100);
 }

@@ -99,7 +99,7 @@
 
                     <div class="col-sm-12 padding0">
                         <hr>
-                        <a href="#"><span class="fa fa-sign-out margin-right5" aria-hidden="true"></span>Log out</a>
+                        <a href="./logout"><span class="fa fa-sign-out margin-right5" aria-hidden="true"></span>Log out</a>
                         <hr>
                     </div>
                 </div>
