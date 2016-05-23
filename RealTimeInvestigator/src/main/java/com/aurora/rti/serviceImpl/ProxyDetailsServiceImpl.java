@@ -42,7 +42,7 @@ public class ProxyDetailsServiceImpl implements ProxyDetailsService {
 		List<String> proxyList = null;
 		try {
 			 proxyList = new ArrayList<String>();
-			 String ipAddress = "112.135.1.252,199.189.80.13,177.207.196.50";
+			 String ipAddress = dto.getxForwarded();
 					 //dto.getxForwarded();
 					 //"112.135.1.252,199.189.80.13,177.207.196.50";
 					 //request.getHeader("X-FORWARDED-FOR");
@@ -55,9 +55,9 @@ public class ProxyDetailsServiceImpl implements ProxyDetailsService {
 	        		proxyList.add(ip);
 	        	}
 			 } 
-/*			 else {
+			 else {
 				 ipAddress =dto.getRemoteAddress();  
-			 }*/
+			 }
 			 
 			 for(String proxyIP : proxyList) {
 				 ProxyDetails proxyDetails=  new ProxyDetails();

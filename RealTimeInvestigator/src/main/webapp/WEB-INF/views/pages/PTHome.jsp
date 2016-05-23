@@ -3,12 +3,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 
 <html>
+
 <head>
 	<script src="static/script/jquery.min.js"></script>
 	<script src="static/script/rtiNew.js"></script>
 	<script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
 
 <title>RTI</title>
+<%-- <meta name="_csrf" content="${_csrf.token}"/>
+<!-- default header name is X-CSRF-TOKEN -->
+<meta name="_csrf_header" content="${_csrf.headerName}"/> --%>
 <meta name="description" content="website description" />
 <meta name="keywords" content="website keywords, website keywords" />
 <meta http-equiv="content-type"
@@ -126,6 +130,7 @@
 			</div>
 		</div>
 		<div id="content_footer"></div>
+		<%-- <input type="hidden" name="${_csrf.parameterName}"  value="${_csrf.token}" /> --%>
 		<div id="footer">
 			<!-- <p><a href="index.html">Home</a> | <a href="examples.html">Examples</a> | <a href="page.html">A Page</a> | <a href="another_page.html">Another Page</a> | <a href="contact.html">Contact Us</a></p> -->
 			<p>

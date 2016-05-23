@@ -99,7 +99,11 @@ public class DashboardFormController {
 	 @RequestMapping(method = RequestMethod.GET, value = "/getDeviceCount")
      public ResponseEntity<ResponseClass> getDeviceCount(HttpServletRequest request, HttpServletResponse response){
 
-		 HttpHeaders headers = new GetHeaders().getHeaders();
+		 HttpHeaders headers = new HttpHeaders();
+		 headers.set("Access-Control-Allow-Origin", "*");
+		 headers.set("Access-Control-Allow-Methods", "GET");
+		 headers.set("Access-Control-Max-Age", "3600");
+		 headers.set("Access-Control-Allow-Headers", "x-requested-with");
 		 ResponseClass res = new ResponseClass();
 
 	     Map<String, Integer> deviceCountMap = null;
@@ -112,7 +116,11 @@ public class DashboardFormController {
 	 @RequestMapping(method = RequestMethod.GET, value = "/getHeaderDetailsData")
      public ResponseEntity<ResponseClass> getHeaderDetailsData(HttpServletRequest request, HttpServletResponse response){
 
-		 HttpHeaders headers = new GetHeaders().getHeaders();
+		 HttpHeaders headers = new HttpHeaders();
+		 headers.set("Access-Control-Allow-Origin", "*");
+		 headers.set("Access-Control-Allow-Methods", "GET");
+		 headers.set("Access-Control-Max-Age", "3600");
+		 headers.set("Access-Control-Allow-Headers", "x-requested-with");
 		 ResponseClass res = new ResponseClass();
 		 Long sid = Long.parseLong((String)request.getParameter("sid"));
 	     Map<String, Object> geaderDetailsMap = null;
@@ -125,7 +133,11 @@ public class DashboardFormController {
 	 @RequestMapping(method = RequestMethod.GET, value = "/getAnalyseData")
      public ResponseEntity<ResponseClass> getAnalyseData(HttpServletRequest request, HttpServletResponse response){
 
-		 HttpHeaders headers = new GetHeaders().getHeaders();
+		 HttpHeaders headers = new HttpHeaders();
+		 headers.set("Access-Control-Allow-Origin", "*");
+		 headers.set("Access-Control-Allow-Methods", "GET");
+		 headers.set("Access-Control-Max-Age", "3600");
+		 headers.set("Access-Control-Allow-Headers", "x-requested-with");
 		 ResponseClass res = new ResponseClass();
 		 Long sid = Long.parseLong((String)request.getParameter("sid"));
 	     Map<String, Object> geaderDetailsMap = null;
@@ -138,7 +150,11 @@ public class DashboardFormController {
 	 @RequestMapping(method = RequestMethod.GET, value = "/getProxyDetails")
      public ResponseEntity<ResponseClass> getProxyDetails(HttpServletRequest request, HttpServletResponse response){
 
-		 HttpHeaders headers = new GetHeaders().getHeaders();
+		 HttpHeaders headers = new HttpHeaders();
+		 headers.set("Access-Control-Allow-Origin", "*");
+		 headers.set("Access-Control-Allow-Methods", "GET");
+		 headers.set("Access-Control-Max-Age", "3600");
+		 headers.set("Access-Control-Allow-Headers", "x-requested-with");
 		 ResponseClass res = new ResponseClass();
 		 Long bid = Long.parseLong((String)request.getParameter("bid"));
 	     List<ProxyDetailsDTO> list = proxyDetailsService.getProxyDetails(bid);

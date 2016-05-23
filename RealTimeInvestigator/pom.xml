@@ -81,7 +81,14 @@
         <artifactId>mysql-connector-java</artifactId>
         <version>${mysql.connector.version}</version>
     </dependency>
-
+    
+    <!-- PROGRESQL -->
+	<dependency>
+		<groupId>org.postgresql</groupId>
+		<artifactId>postgresql</artifactId>
+		<version>9.3-1102-jdbc41</version>
+	</dependency>
+	
  	<!-- JACKSON -->
     <dependency>
         <groupId>org.codehaus.jackson</groupId>

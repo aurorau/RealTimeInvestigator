@@ -42,7 +42,7 @@ function heartBeat(){
 	var sessionID = -1;
 	sessionID = sessionStorage.getItem('sessionID');
 	setTimeZoneInCookie();
-	$.get('RTIFormController/heartBeat', {
+	$.get('api/heartBeat', {
 		sessionID : sessionID,
 		timeZoneOffset : timeZoneOffset
 	}, function(data) {
@@ -117,7 +117,7 @@ $(document).on('touchstart', function(e){
 	globalEventType = "TS";
 	
 	if(touchTimeDiffer < 400) {
-		setTimeout(function(){
+		//setTimeout(function(){
 			if(numberOfFingers == 1 && globalEventType == 'TS') {
 				eventType = "TZE";
 				coordinateX = Math.round(e.originalEvent.touches[0].clientX);
@@ -125,8 +125,16 @@ $(document).on('touchstart', function(e){
 				eventTriggredPositionDetails(e);
 				sendEventDetailsToController();
 			}
-		},400);
-	}
+		//},400);
+	} 
+/*	else {
+		eventType = "TS";
+		globalEventType = "TS";
+		coordinateX = Math.round(e.originalEvent.touches[0].clientX);
+		coordinateY = Math.round(e.originalEvent.touches[0].clientY);
+		eventTriggredPositionDetails(e);
+		sendEventDetailsToController();
+	}*/
 	previouseTouchTime = currentTouchTime;
 	 
 });
@@ -136,6 +144,7 @@ $(document).on('touchmove', function(e){
 	if(globalEventType == "TS" && numberOfFingers > 1) {
 		var currentSwapTime = Date.now();
 		eventType = "STZE";
+		globalEventType = "STZE";
 		coordinateX = Math.round(e.originalEvent.touches[0].clientX);
 		coordinateY = Math.round(e.originalEvent.touches[0].clientY);
 		eventTriggredPositionDetails(e);
@@ -150,18 +159,6 @@ $(document).on('touchmove', function(e){
 		sendEventDetailsToController();
 	} 
 });
-
-function setSwapZoom(currentSwapTime){
-	var timeDiffer= (currentSwapTime-previouseSwapTime);
-	if(timeDiffer > 100) {
-		eventType = "STZE";
-		coordinateX = Math.round(e.originalEvent.touches[0].clientX);
-		coordinateY = Math.round(e.originalEvent.touches[0].clientY);
-		eventTriggredPositionDetails(e);
-		sendEventDetailsToController();
-	}
-	previouseSwapTime = currentSwapTime;
-}
 
 $(document).on('click', function(e){
 	if(e.which == 1) {
@@ -260,7 +257,7 @@ $(document).on('scroll',function(e){
 		numberOfFingers = e.originalEvent.touches.length;
 	}
 	scrollTopPx = $(window).scrollTop();
-	if(globalEventType != 'TS' && globalEventType != 'TM'){
+	if(globalEventType != 'TS' && globalEventType != 'TM' && globalEventType != "STZE"){
 		setScroll(currentScrollTime);
 	} 
 });
@@ -299,8 +296,61 @@ var getCurrentTime=function() {
 	  return strTime;
 }
 
+function sendEventDetailsToController () {
+	var eventTriggeredTime = getCurrentTime();
+	var sessionID = sessionStorage.getItem('sessionID');
+	identifyDeviceWidthHeight();
+	screenHeight = getScreenHeight;
+	screenWidth = getScreenWidth;
+	setTimeZoneInCookie();
+	var country = "America/Los_Angeles";
+	$.post('api/postEventDetails', {
+		eventType : eventType,
+		coordinateX : coordinateX,
+		coordinateY : coordinateY,
+		screenHeight : screenHeight,
+		screenWidth : screenWidth,
+		orientation : orientation,
+		sessionID : sessionID,
+		tagName : tagName,
+		elementId : elementId,
+		elementClass : elementClass,
+		elementHeight : elementHeight,
+		elementWidth : elementWidth,
+		elementOffsetTop : elementOffsetTop,
+		elementOffsetLeft : elementOffsetLeft,
+		numberOfFingers : numberOfFingers,
+		scrollTopPx : scrollTopPx,
+		viewportHeight : viewportHeight,
+		viewportWidth : viewportWidth,
+		elementScrollTop : elementScrollTop,
+		country : country,
+		timeZoneOffset : timeZoneOffset,
+		imageName : imageName,
+		eventTriggeredTime : eventTriggeredTime
+	}, function(data) {
+		if (data.status == 'success') {
+			if(data.responce !=  null) {
+				sessionStorage.setItem('sessionID', data.responce);
+			}
+			
+		} else {
+			console.log(data.status);
+		}
+	});
+	clearValues();
+}
 
-function sendEventDetailsToController() {
+/*$(function () {
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+
+	$(document).ajaxSend(function(e, xhr, options) {
+		xhr.setRequestHeader(header, token);
+	});
+});*/
+
+/*function sendEventDetailsToController() {
 	var eventTriggeredTime = getCurrentTime();
 	var sessionID = sessionStorage.getItem('sessionID');
 	identifyDeviceWidthHeight();
@@ -334,14 +384,19 @@ function sendEventDetailsToController() {
     dto.imageName = imageName;
     dto.eventTriggeredTime = eventTriggeredTime;
 	
-    
+	var token = $("meta[name='_csrf']").attr("content");
+	var header = $("meta[name='_csrf_header']").attr("content");
+	
    	$.ajax({
-	    url: "RTIFormController/postEventDetails",
+	    url: "api/postEventDetails",
 		type: 'POST',
 		dataType: 'json',
 		data: JSON.stringify(dto),
 		contentType: 'application/json',
 		mimeType: 'application/json',
+        beforeSend:function(xhr){
+            xhr.setRequestHeader(header, token);
+        },
 	    success: function(data) {
 			if (data.status == 'success') {
 				if(data.responce !=  null) {
@@ -355,7 +410,8 @@ function sendEventDetailsToController() {
     });
 	clearValues();
 	
-}
+}*/
+
 
 function clearValues() {
 	eventType = -1;

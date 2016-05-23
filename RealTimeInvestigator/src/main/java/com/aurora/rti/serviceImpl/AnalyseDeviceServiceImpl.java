@@ -56,7 +56,7 @@ public class AnalyseDeviceServiceImpl implements AnalyseDeviceService {
 			desktopDevice += 1;
 		}
 		if(map.get("SE_COUNT").intValue() > 0) {
-			desktopDevice += 1;
+			//desktopDevice += 1;
 		}
 		if(map.get("TS_COUNT").intValue() > 0) {
 			mobileDevice += 1;
