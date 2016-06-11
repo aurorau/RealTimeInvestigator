@@ -3,14 +3,14 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
-<display:table name="userDetailsTable" class="table events-table" cellspacing="0" requestURI="./getUserDetailsBySessionId" id="userDetailsTable" sort="external" partialList="true" size="${size}" pagesize="${gridSize}" export="false">
+<display:table name="userDetailsTable" class="table events-table" cellspacing="0" requestURI="./dashboardFormController/getUserDetailsBySessionId" id="userDetailsTable" sort="external" partialList="true" size="${size}" pagesize="${gridSize}" export="false">
 
      <display:column property="eventName" title="Event"/>
      <display:column property="tagName" title="Tag"/>
      <display:column property="imageName" title="Image"/>
      <display:column property="eventTriggeredTime" title="Triggered Time"/>
      <display:column property="numOfTaps" title="Taps"/>
-     <display:column property="scrollTop" title="ScrollTop"/>
+    <%--  <display:column property="scrollTop" title="ScrollTop"/> --%>
      <display:column title="Event(X,Y)">
      	<label>${userDetailsTable.coordinateX} , ${userDetailsTable.coordinateY}</label>
      </display:column>
@@ -28,6 +28,7 @@
      <display:column property="browserName" title="Browser"/>
     <%--  <display:column property="browserVersion" title="Version"/> --%>
      <display:column property="userAgentId" title="ID"/>
+     <display:column property="eventStatus" title="Status"/>
      <display:column  title="Proxies">
      	<label>${userDetailsTable.pid.size()}</label>
      	<c:if test="${userDetailsTable.pid.size() > 0}">

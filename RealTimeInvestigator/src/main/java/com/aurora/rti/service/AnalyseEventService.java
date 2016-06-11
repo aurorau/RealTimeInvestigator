@@ -9,5 +9,5 @@ public interface AnalyseEventService {
 
 	Map<String, Object> getHeaderDetailsData(List<UserDetailsDTO> list);
 	Map<String, Integer> getEventAnalyseData(List<UserDetailsDTO> list);
-
+	List<UserDetailsDTO> eventVerification(List<UserDetailsDTO> list);
 }

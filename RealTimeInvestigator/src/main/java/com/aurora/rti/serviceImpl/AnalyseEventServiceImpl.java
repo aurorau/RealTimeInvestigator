@@ -1,5 +1,6 @@
 package com.aurora.rti.serviceImpl;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.aurora.rti.dao.SessionDetailsDao;
+import com.aurora.rti.emuns.EventTypes;
 import com.aurora.rti.model.SessionDetails;
 import com.aurora.rti.service.AnalyseEventService;
 import com.aurora.rti.service.CommonService;
@@ -271,5 +273,64 @@ public class AnalyseEventServiceImpl implements AnalyseEventService {
 		map.put("optionCount", optionCount);
 		
 		return map;
+	}
+	
+	public List<UserDetailsDTO> eventVerification(List<UserDetailsDTO> dtoList){
+		List<UserDetailsDTO> returnList = new ArrayList<UserDetailsDTO>();
+		
+		for(UserDetailsDTO dto : dtoList){
+			
+			if(dto.getEventName().equalsIgnoreCase(EventTypes.LEFT_CLICK.getEventTypes())){
+				if(validateDesktopEvent(dto)){
+					dto.setEventStatus("FRAUD");
+				}
+			} else if(dto.getEventName().equalsIgnoreCase(EventTypes.DB_CLICK.getEventTypes())){
+				if(validateDesktopEvent(dto)){
+					dto.setEventStatus("FRAUD");
+				}
+			} else if(dto.getEventName().equalsIgnoreCase(EventTypes.RIGHT_CLICK.getEventTypes())){
+				if(validateDesktopEvent(dto)){
+					dto.setEventStatus("FRAUD");
+				}
+			} else if(dto.getEventName().equalsIgnoreCase(EventTypes.SCROLL_EVENT.getEventTypes())){
+				if(validateDesktopEvent(dto)){
+					dto.setEventStatus("FRAUD");
+				}
+			} else if(dto.getEventName().equalsIgnoreCase(EventTypes.TOUCH_START.getEventTypes())){
+				if(validateMobileEvent(dto)){
+					dto.setEventStatus("FRAUD");
+				}
+			} else if(dto.getEventName().equalsIgnoreCase(EventTypes.TOUCH_MOVE.getEventTypes())){
+				if(validateMobileEvent(dto)){
+					dto.setEventStatus("FRAUD");
+				}
+			} else if(dto.getEventName().equalsIgnoreCase(EventTypes.TOUCH_ZOOM.getEventTypes())){
+				if(validateMobileEvent(dto)){
+					dto.setEventStatus("FRAUD");
+				}
+			} else if(dto.getEventName().equalsIgnoreCase(EventTypes.SWAP_TOUCH_ZOOM.getEventTypes())){
+				if(Integer.parseInt(dto.getNumOfTaps()) != 2 || dto.getOrientation().equalsIgnoreCase("-1")){
+					dto.setEventStatus("FRAUD");
+				}
+			}
+			
+			returnList.add(dto);
+		}
+		return returnList;
+	}
+
+	public Boolean validateDesktopEvent(UserDetailsDTO dto){
+		Boolean fraudEvent = false;
+		if(Integer.parseInt(dto.getNumOfTaps()) > 0 || !dto.getOrientation().equalsIgnoreCase("-1")){
+			fraudEvent = true;
+		}
+		return fraudEvent;
+	}
+	public Boolean validateMobileEvent(UserDetailsDTO dto){
+		Boolean fraudEvent = false;
+		if(Integer.parseInt(dto.getNumOfTaps()) == -1 || dto.getOrientation().equalsIgnoreCase("-1")){
+			fraudEvent = true;
+		}
+		return fraudEvent;
 	}
 }

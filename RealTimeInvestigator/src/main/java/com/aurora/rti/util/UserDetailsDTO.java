@@ -30,6 +30,7 @@ public class UserDetailsDTO {
 	private String imageName;
 	private String lastAccessTime;
 	private String firstAccessTime;
+	private String eventStatus = "NOT FRAUD";
 
 	public String getBrowserVersion() {
 		return browserVersion;
@@ -193,6 +194,12 @@ public class UserDetailsDTO {
 	}
 	public void setFirstAccessTime(String firstAccessTime) {
 		this.firstAccessTime = firstAccessTime;
+	}
+	public String getEventStatus() {
+		return eventStatus;
+	}
+	public void setEventStatus(String eventStatus) {
+		this.eventStatus = eventStatus;
 	}
 	
 }

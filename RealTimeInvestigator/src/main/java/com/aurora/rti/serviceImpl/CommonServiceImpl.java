@@ -228,6 +228,7 @@ public class CommonServiceImpl implements CommonService {
 		
 		try {
 			list = browserDetailsService.getUserDetailsBySessionId(sortField,order,start,gridTableSize,searchq, sessionPK);
+			list = analyseEventService.eventVerification(list);
 			list = proxyDetailsService.getPID(list);
 		} catch(Exception e) {
 			logger.error("+++++++++ Error in getUserDetailsBySessionId in CommonServiceImpl :"+e);
