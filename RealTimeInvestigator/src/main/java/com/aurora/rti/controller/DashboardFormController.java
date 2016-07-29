@@ -109,7 +109,7 @@ public class DashboardFormController {
 	     deviceCountMap = commonService.getDeviceCount();
 	    
 	     res.setResponce(deviceCountMap);
-		 return new ResponseEntity<ResponseClass>(res,headers,HttpStatus.CREATED);
+		 return new ResponseEntity<ResponseClass>(res,headers,HttpStatus.OK);
 	 }
 	 
 	 @RequestMapping(method = RequestMethod.GET, value = "/getHeaderDetailsData")
@@ -126,7 +126,7 @@ public class DashboardFormController {
 	     geaderDetailsMap = commonService.getHeaderDetailsData(sid);
 	    
 	     res.setResponce(geaderDetailsMap);
-		 return new ResponseEntity<ResponseClass>(res,headers,HttpStatus.CREATED);
+		 return new ResponseEntity<ResponseClass>(res,headers,HttpStatus.OK);
 	 }
 	 
 	 @RequestMapping(method = RequestMethod.GET, value = "/getAnalyseData")
@@ -143,7 +143,7 @@ public class DashboardFormController {
 	     geaderDetailsMap = commonService.getAnalyseData(sid);
 	    
 	     res.setResponce(geaderDetailsMap);
-		 return new ResponseEntity<ResponseClass>(res,headers,HttpStatus.CREATED);
+		 return new ResponseEntity<ResponseClass>(res,headers,HttpStatus.OK);
 	 }
 	 
 	 @RequestMapping(method = RequestMethod.GET, value = "/getProxyDetails")
@@ -159,6 +159,6 @@ public class DashboardFormController {
 	     List<ProxyDetailsDTO> list = proxyDetailsService.getProxyDetails(bid);
 	    
 	     res.setResponce(list);
-		 return new ResponseEntity<ResponseClass>(res,headers,HttpStatus.CREATED);
+		 return new ResponseEntity<ResponseClass>(res,headers,HttpStatus.OK);
 	 }
 }

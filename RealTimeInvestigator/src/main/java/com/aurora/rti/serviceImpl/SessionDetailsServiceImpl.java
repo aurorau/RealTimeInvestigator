@@ -58,7 +58,7 @@ public class SessionDetailsServiceImpl implements SessionDetailsService {
 				sessionDetails.setSessionCreatedTime(currentTime);
 				sessionDetails.setLastAccessTime(currentTime);
 				sessionDetails.setHeartBeatTime(commonService.getServerTime());
-				sessionDetails.setStatus("ACTIVE");
+				sessionDetails.setStatus(State.ACTIVE.getName());
 			} else {
 				sessionDetails = sessionDetailsDao.getById(sessionDetails.getSID());
 				sessionDetails.setSessionAccessCount(sessionDetails.getSessionAccessCount()+1);
