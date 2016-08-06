@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.log4j.Logger;
 import org.displaytag.tags.TableTagParameters;
 import org.displaytag.util.ParamEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
+import com.aurora.rti.annotation.ControllerLoggable;
 import com.aurora.rti.service.CommonService;
 import com.aurora.rti.service.ProxyDetailsService;
 import com.aurora.rti.util.Constants;
@@ -29,7 +29,7 @@ import com.aurora.rti.util.UserDetailsDTO;
 @RestController
 @RequestMapping("/dashboardFormController")
 public class DashboardFormController {
-	private static final Logger logger = Logger.getLogger(DashboardFormController.class);
+	//private static final Logger logger = Logger.getLogger(DashboardFormController.class);
 	private ProxyDetailsService proxyDetailsService = null;
 	private CommonService commonService = null;
 	 
@@ -44,6 +44,7 @@ public class DashboardFormController {
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value="/getCurrentUserCount")
+	@ControllerLoggable
 	public ModelAndView getCurrentUserCount(HttpServletRequest request, HttpServletResponse response){
 	    List<UserCountDTO> list = null;
 	     
@@ -64,11 +65,12 @@ public class DashboardFormController {
 	    	request.setAttribute(Constants.GRID_TABLE_SIZE_KEY, Constants.GRID_TABLE_SIZE);
 	    	model.addAttribute(Constants.USER_COUNT_TABLE, list);
 	    } catch (Exception e) {
-	    	logger.error("++++++++++ Error in getCurrentUserCount in DashboardFormController :"+e);
+	    	//logger.error("++++++++++ Error in getCurrentUserCount in DashboardFormController :"+e);
 	    }
 		return new ModelAndView("pages/dynamicTables/dynamicUserCountTable", model.asMap());
 	 }
 	@RequestMapping(method = RequestMethod.GET, value="/getUserDetailsBySessionId")
+	@ControllerLoggable
 	public ModelAndView getUserDetailsBySessionId(HttpServletRequest request, HttpServletResponse response){
 	     Long sessionPK = Long.parseLong(request.getParameter("sid"));
 	     List<UserDetailsDTO> list = null;
@@ -90,7 +92,7 @@ public class DashboardFormController {
 	    		request.setAttribute(Constants.GRID_TABLE_SIZE_KEY, Constants.GRID_TABLE_SIZE);
 	    		model.addAttribute(Constants.USER_DETAILS, list);
 	    	} catch (Exception e) {
-	    		logger.error("++++++++++ Error in getUserDetailsBySessionId in DashboardFormController :"+e);
+	    		//logger.error("++++++++++ Error in getUserDetailsBySessionId in DashboardFormController :"+e);
 	    	}
 		 return new ModelAndView("pages/dynamicTables/dynamicUserDetailsTable", model.asMap());
 	}

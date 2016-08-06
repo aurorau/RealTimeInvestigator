@@ -1,18 +1,13 @@
 package com.aurora.rti.serviceImpl;
 
 import java.util.List;
-
 import javax.transaction.Transactional;
-
 import nl.bitwalker.useragentutils.Browser;
 import nl.bitwalker.useragentutils.BrowserType;
 import nl.bitwalker.useragentutils.UserAgent;
 import nl.bitwalker.useragentutils.Version;
-
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.aurora.rti.dao.BrowserDetailsDao;
 import com.aurora.rti.model.BrowserDetails;
 import com.aurora.rti.model.DeviceDetails;
@@ -27,7 +22,7 @@ import com.aurora.rti.util.UserDetailsDTO;
 @Service("browserDetailsService")
 public class BrowserDetailsServiceImpl implements BrowserDetailsService {
 
-	private static final Logger logger = Logger.getLogger(BrowserDetailsServiceImpl.class);
+	//private static final Logger logger = Logger.getLogger(BrowserDetailsServiceImpl.class);
 	private ProxyDetailsService proxyDetailsService = null;
 	private BrowserDetailsDao browserDetailsDao = null;
 	
@@ -72,7 +67,7 @@ public class BrowserDetailsServiceImpl implements BrowserDetailsService {
 				res = Constants.SUCCESS;
 			}
 		} catch(Exception e) {
-			logger.error("++++++++++ Error in saveBrowserDetails in BrowserDetailsServiceImpl :"+e);
+			//logger.error("++++++++++ Error in saveBrowserDetails in BrowserDetailsServiceImpl :"+e);
 		}
 		return res;
 	}
@@ -83,7 +78,7 @@ public class BrowserDetailsServiceImpl implements BrowserDetailsService {
 		try {
 			list = browserDetailsDao.analyseUserBySessionId(sid);
 		} catch(Exception e){
-			logger.error("++++++++++ Error in analyseUserBySessionId in BrowserDetailsServiceImpl :"+e);
+			//logger.error("++++++++++ Error in analyseUserBySessionId in BrowserDetailsServiceImpl :"+e);
 		}
 		return list;
 	}
@@ -94,7 +89,7 @@ public class BrowserDetailsServiceImpl implements BrowserDetailsService {
 		try {
 			list = browserDetailsDao.getUserDetailsBySessionId(sortField,order, start, gridTableSize, searchq,sessionPK);
 		} catch(Exception e){
-			logger.error("++++++++++ Error in getUserDetailsBySessionId in BrowserDetailsServiceImpl :"+e);
+			//logger.error("++++++++++ Error in getUserDetailsBySessionId in BrowserDetailsServiceImpl :"+e);
 		}
 		return list;
 	}
@@ -104,7 +99,7 @@ public class BrowserDetailsServiceImpl implements BrowserDetailsService {
 		try {
 			count = browserDetailsDao.getUserDetailsCountBySessionId(searchq, sessionPK);
 		}catch (Exception e){
-			logger.error("+++++++++ Error in getUserDetailsCountBySessionId in BrowserDetailsServiceImpl :"+e);
+			//logger.error("+++++++++ Error in getUserDetailsCountBySessionId in BrowserDetailsServiceImpl :"+e);
 		}
 		return count;
 	}

@@ -11,6 +11,8 @@ import javax.persistence.Table;
 @Entity
 @Table(name="event_details")
 public class EventDetails implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	
 	private Long EID;
 	private String eventTypes;

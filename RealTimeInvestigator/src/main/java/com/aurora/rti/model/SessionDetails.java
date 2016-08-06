@@ -12,6 +12,8 @@ import javax.persistence.Table;
 @Table(name="session_details")
 public class SessionDetails implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	private Long SID;
 	private String sessionId;
 	private String sessionCreatedTime;

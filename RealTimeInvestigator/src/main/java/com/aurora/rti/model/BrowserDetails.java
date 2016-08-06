@@ -18,6 +18,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name="browser_details")
 public class BrowserDetails implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private Long BID;
 	private Long userAgetntId;
 	private String browserName;

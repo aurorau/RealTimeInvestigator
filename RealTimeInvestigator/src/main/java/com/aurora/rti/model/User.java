@@ -19,7 +19,9 @@ import javax.persistence.JoinColumn;
 @Table(name="APP_USER")
 public class User implements Serializable{
  
-    @Id @GeneratedValue(strategy=GenerationType.IDENTITY)
+	private static final long serialVersionUID = 1L;
+
+	@Id @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
  
     @Column(name="SSO_ID", unique=true, nullable=false)

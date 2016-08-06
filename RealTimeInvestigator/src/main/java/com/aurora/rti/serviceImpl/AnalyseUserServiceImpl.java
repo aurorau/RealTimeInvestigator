@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.aurora.rti.service.AnalyseUserService;
 import com.aurora.rti.service.CommonService;
 import com.aurora.rti.service.ProxyDetailsService;
@@ -18,7 +15,6 @@ import com.aurora.rti.util.UserDetailsDTO;
 
 @Service("analyseUserService")
 public class AnalyseUserServiceImpl implements AnalyseUserService {
-	private static final Logger logger = Logger.getLogger(AnalyseUserServiceImpl.class);
 	private CommonService commonService = null;
 	private ProxyDetailsService proxyDetailsService = null;
 	

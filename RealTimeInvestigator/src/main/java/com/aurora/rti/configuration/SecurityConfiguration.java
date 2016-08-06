@@ -40,14 +40,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
       http.authorizeRequests()
         .antMatchers("/", "/home").permitAll()
-        .antMatchers("/admin/**").access("hasRole('ADMIN')")
-        .antMatchers("/db/**").access("hasRole('ADMIN') and hasRole('DBA')")
-        //.and().formLogin().loginPage("/login")
+        .antMatchers("/dashboard/**").access("hasRole('ADMIN')")
         .and().formLogin().loginPage("/login").successHandler(customSuccessHandler)
         .usernameParameter("ssoId").passwordParameter("password")
         .and().csrf()
         .and().exceptionHandling().accessDeniedPage("/Access_Denied");
-      //http.antMatcher("/api/**").csrf().disable();
       http.csrf().disable();
     }
 }

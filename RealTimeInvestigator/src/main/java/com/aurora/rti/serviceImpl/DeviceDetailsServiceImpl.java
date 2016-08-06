@@ -1,15 +1,11 @@
 package com.aurora.rti.serviceImpl;
 
 import javax.transaction.Transactional;
-
 import nl.bitwalker.useragentutils.Manufacturer;
 import nl.bitwalker.useragentutils.OperatingSystem;
 import nl.bitwalker.useragentutils.UserAgent;
-
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import com.aurora.rti.dao.DeviceDetailsDao;
 import com.aurora.rti.model.DeviceDetails;
 import com.aurora.rti.model.SessionDetails;
@@ -20,7 +16,7 @@ import com.aurora.rti.util.EventDetailsDTO;
 
 @Service("deviceDetailsService")
 public class DeviceDetailsServiceImpl implements DeviceDetailsService {
-	private static final Logger logger = Logger.getLogger(SessionDetailsServiceImpl.class);
+	//private static final Logger logger = Logger.getLogger(SessionDetailsServiceImpl.class);
 	private EventDetailsService eventDetailsService = null;
 	private DeviceDetailsDao deviceDetailsDao = null;
 	
@@ -59,7 +55,7 @@ public class DeviceDetailsServiceImpl implements DeviceDetailsService {
 				res = Constants.SUCCESS;
 			}
 		} catch(Exception e) {
-			logger.error("++++++++++ Error in saveDeviceDetails in DeviceDetailsServiceImpl :"+e);
+			//logger.error("++++++++++ Error in saveDeviceDetails in DeviceDetailsServiceImpl :"+e);
 		}
 		return res;
 	}

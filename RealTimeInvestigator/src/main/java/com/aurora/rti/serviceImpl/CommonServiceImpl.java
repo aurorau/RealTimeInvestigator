@@ -11,9 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-
 import org.apache.commons.lang.time.DateUtils;
-import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
@@ -21,7 +19,6 @@ import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.aurora.rti.dao.SessionDetailsDao;
 import com.aurora.rti.model.SessionDetails;
 import com.aurora.rti.service.AnalyseDeviceService;
@@ -37,7 +34,7 @@ import com.maxmind.geoip.LookupService;
 
 @Service("commonService")
 public class CommonServiceImpl implements CommonService {
-	 private static final Logger logger = Logger.getLogger(CommonServiceImpl.class);
+	 //private static final Logger logger = Logger.getLogger(CommonServiceImpl.class);
 	 private static LookupService lookUp;
 	 private BrowserDetailsService browserDetailsService = null;
 	 private ProxyDetailsService proxyDetailsService = null;
@@ -95,7 +92,7 @@ public class CommonServiceImpl implements CommonService {
 			 Date date = new Date();
 			 result = formatter.format(date);
 		 } catch(Exception e){
-			 logger.error("++++++ Error in getServerTime in CommonServiceImpl :"+e);
+			 //logger.error("++++++ Error in getServerTime in CommonServiceImpl :"+e);
 		 }
 
 		 return result;
@@ -107,7 +104,7 @@ public class CommonServiceImpl implements CommonService {
 			 Date date = new Date();
 			 result = formatter.format(DateUtils.addMinutes(date, minutes));
 		 } catch(Exception e){
-			 logger.error("++++++ Error in beforeTime in CommonServiceImpl :"+e);
+			// logger.error("++++++ Error in beforeTime in CommonServiceImpl :"+e);
 		 }
 
 		 return result;
@@ -125,7 +122,7 @@ public class CommonServiceImpl implements CommonService {
 				 dateTime = str;
 			 }
 		 } catch(Exception e){
-			 logger.error("++++++ Error in getLocationBasedCurrentTime in CommonServiceImpl :"+e);
+			 //logger.error("++++++ Error in getLocationBasedCurrentTime in CommonServiceImpl :"+e);
 		 }
 		 return dateTime;
 	 }
@@ -148,7 +145,7 @@ public class CommonServiceImpl implements CommonService {
 				 map.put("dateTime", dateTime);
 			 }
 		 } catch(Exception e){
-			 logger.error("++++++ Error in getCountryDateAndTime in CommonServiceImpl :"+e);
+			 //logger.error("++++++ Error in getCountryDateAndTime in CommonServiceImpl :"+e);
 		 }
 		 return map;
 	 }
@@ -170,7 +167,7 @@ public class CommonServiceImpl implements CommonService {
 			}
 			
 		} catch(Exception e) {
-			logger.error("+++++++++ Error in getCurrentUserCountList in CommonServiceImpl :"+e);
+			//logger.error("+++++++++ Error in getCurrentUserCountList in CommonServiceImpl :"+e);
 		}
 		return returnList;
 	 }
@@ -181,7 +178,7 @@ public class CommonServiceImpl implements CommonService {
 		try {
 			count = sessionDetailsDao.getCurrentUserCount(searchq);
 		}catch (Exception e){
-			logger.error("+++++++++ Error in getCurrentUserCount in CommonServiceImpl :"+e);
+			//logger.error("+++++++++ Error in getCurrentUserCount in CommonServiceImpl :"+e);
 		}
 		
 		return count;
@@ -218,7 +215,7 @@ public class CommonServiceImpl implements CommonService {
 			deviceReturnMap.put("fraudCount", fraudCount);
 			deviceReturnMap.put("totalCount", totalCount);
 		} catch (Exception e){
-			logger.error("+++++++++ Error in getDeviceCount in CommonServiceImpl :"+e);
+			//logger.error("+++++++++ Error in getDeviceCount in CommonServiceImpl :"+e);
 		}
 		return deviceReturnMap;
 	 }
@@ -231,7 +228,7 @@ public class CommonServiceImpl implements CommonService {
 			list = analyseEventService.eventVerification(list);
 			list = proxyDetailsService.getPID(list);
 		} catch(Exception e) {
-			logger.error("+++++++++ Error in getUserDetailsBySessionId in CommonServiceImpl :"+e);
+			//logger.error("+++++++++ Error in getUserDetailsBySessionId in CommonServiceImpl :"+e);
 		}
 		return list;
 	 }
@@ -242,7 +239,7 @@ public class CommonServiceImpl implements CommonService {
 		try {
 			count = browserDetailsService.getUserDetailsCountBySessionId(searchq, sessionPK);
 		}catch (Exception e){
-			logger.error("+++++++++ Error in getUserDetailsCountBySessionId in CommonServiceImpl :"+e);
+			//logger.error("+++++++++ Error in getUserDetailsCountBySessionId in CommonServiceImpl :"+e);
 		}
 		
 		return count;
@@ -256,7 +253,7 @@ public class CommonServiceImpl implements CommonService {
 			list = proxyDetailsService.getPID(list);
 			map = analyseEventService.getHeaderDetailsData(list);
 		} catch(Exception e){
-			logger.error("+++++++++ Error in getHeaderDetailsData in CommonServiceImpl :"+e);
+			//logger.error("+++++++++ Error in getHeaderDetailsData in CommonServiceImpl :"+e);
 		}
 		return map;
 	 }
@@ -275,7 +272,7 @@ public class CommonServiceImpl implements CommonService {
 			deviceAnalyseMap = analyseDeviceService.deviceIdenticication(list);
 			userAnalyseMap = analyseUserService.getUserAnalyseData(list);
 		} catch(Exception e){
-			logger.error("+++++++++ Error in getAnalyseData in CommonServiceImpl :"+e);
+			//logger.error("+++++++++ Error in getAnalyseData in CommonServiceImpl :"+e);
 		}
 		returnMap.put("eventAnalyseMap", eventAnalyseMap);
 		returnMap.put("deviceAnalyseMap", deviceAnalyseMap);
@@ -321,13 +318,13 @@ public class CommonServiceImpl implements CommonService {
 				//System.out.println("Key : " + key + ", Value : " + value);
 			}
 		} catch(IOException ex){
-			logger.error("+++++++++ Error in getCountryTimeMap in CommonServiceImpl :"+ex);
+			//logger.error("+++++++++ Error in getCountryTimeMap in CommonServiceImpl :"+ex);
 		} finally {
 			if (input != null) {
 				try {
 					input.close();
 				} catch (IOException e) {
-					logger.error("+++++++++ Error in getCountryTimeMap in CommonServiceImpl :"+e);
+					//logger.error("+++++++++ Error in getCountryTimeMap in CommonServiceImpl :"+e);
 				}
 			}
 		}
@@ -341,7 +338,7 @@ public class CommonServiceImpl implements CommonService {
                     LookupService.GEOIP_MEMORY_CACHE);
 
         } catch (IOException e) {
-        	logger.error("Could not load geo ip database: " + e.getMessage());
+        	//logger.error("Could not load geo ip database: " + e.getMessage());
         }
 	 }
 	 public static GeoLocation getLocation(long ipAddress) {

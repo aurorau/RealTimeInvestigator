@@ -3,17 +3,14 @@ package com.aurora.rti.serviceImpl;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.log4j.Logger;
 import org.springframework.stereotype.Service;
-
 import com.aurora.rti.service.AnalyseDeviceService;
 import com.aurora.rti.util.UserDetailsDTO;
 
 @Service("analyseDeviceService")
 public class AnalyseDeviceServiceImpl implements AnalyseDeviceService {
 
-	private static final Logger logger = Logger.getLogger(AnalyseDeviceServiceImpl.class);
+	//private static final Logger logger = Logger.getLogger(AnalyseDeviceServiceImpl.class);
 	
 	public Map<String, Object> deviceIdenticication(List<UserDetailsDTO> list) {
 		Map<String, Object> map = null;
@@ -36,7 +33,7 @@ public class AnalyseDeviceServiceImpl implements AnalyseDeviceService {
 			map.put("deviceTypeByDimention",deviceTypeByDimention);
 
 		} catch(Exception e){
-			logger.error("+++++++++++ Error in deviceIdenticication in AnalyseDeviceServiceImpl :"+e);
+			//logger.error("+++++++++++ Error in deviceIdenticication in AnalyseDeviceServiceImpl :"+e);
 		}
 		return map;
 	}

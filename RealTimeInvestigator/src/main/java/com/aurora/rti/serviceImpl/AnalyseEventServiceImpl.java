@@ -4,12 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.aurora.rti.dao.SessionDetailsDao;
 import com.aurora.rti.emuns.EventTypes;
 import com.aurora.rti.model.SessionDetails;
@@ -20,7 +17,7 @@ import com.aurora.rti.util.UserDetailsDTO;
 @Service("analyseEventService")
 public class AnalyseEventServiceImpl implements AnalyseEventService {
 
-	private static final Logger logger = Logger.getLogger(AnalyseEventServiceImpl.class);
+	//private static final Logger logger = Logger.getLogger(AnalyseEventServiceImpl.class);
 	private CommonService commonService = null;
 	private SessionDetailsDao sessionDetailsDao = null;
 	
@@ -75,7 +72,7 @@ public class AnalyseEventServiceImpl implements AnalyseEventService {
 			map.put("FIRST_ACCESS_TIME", firstAccessTime);
 			map.put("NUM_OF_SESSION_TIMEOUT", numOfSessionTimeOut);
 		} catch (Exception e){
-			logger.error("+++++++++ Error in getHeaderDetailsData in AnalyseEventServiceImpl :"+e);
+			//logger.error("+++++++++ Error in getHeaderDetailsData in AnalyseEventServiceImpl :"+e);
 		}
 		return map;
 	}

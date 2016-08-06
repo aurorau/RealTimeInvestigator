@@ -2,12 +2,9 @@ package com.aurora.rti.serviceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.aurora.rti.dao.ProxyDetailsDao;
 import com.aurora.rti.model.BrowserDetails;
 import com.aurora.rti.model.ProxyDetails;
@@ -22,7 +19,7 @@ import com.aurora.rti.util.UserDetailsDTO;
 @Service("proxyDetailsService")
 public class ProxyDetailsServiceImpl implements ProxyDetailsService {
 
-	private static final Logger logger = Logger.getLogger(ProxyDetailsServiceImpl.class);
+	//private static final Logger logger = Logger.getLogger(ProxyDetailsServiceImpl.class);
 	private CommonService commonService = null;
 	private ProxyDetailsDao proxyDetailsDao = null;
 	
@@ -77,7 +74,7 @@ public class ProxyDetailsServiceImpl implements ProxyDetailsService {
 			 }
 			res = Constants.SUCCESS;
 		} catch(Exception e) {
-			logger.error("++++++++++ Error in saveProxyDetailsService in ProxyDetailsServiceImpl :"+e);
+			//logger.error("++++++++++ Error in saveProxyDetailsService in ProxyDetailsServiceImpl :"+e);
 		}
 		return res;
 	}
@@ -89,7 +86,7 @@ public class ProxyDetailsServiceImpl implements ProxyDetailsService {
 		try {
 			dtoList = proxyDetailsDao.getPID(list);
 		} catch(Exception e){
-			logger.error("++++++++++ Error in getPID in ProxyDetailsServiceImpl :"+e);
+			//logger.error("++++++++++ Error in getPID in ProxyDetailsServiceImpl :"+e);
 		}
 		return dtoList;
 	}
@@ -100,7 +97,7 @@ public class ProxyDetailsServiceImpl implements ProxyDetailsService {
 		try {
 			list = proxyDetailsDao.getProxyDetails(bid);
 		}catch (Exception e){
-			logger.error("++++++++++ Error in getProxyDetails in ProxyDetailsServiceImpl :"+e);
+			//logger.error("++++++++++ Error in getProxyDetails in ProxyDetailsServiceImpl :"+e);
 		}
 		return list;
 	}

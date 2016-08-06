@@ -1,12 +1,9 @@
 package com.aurora.rti.serviceImpl;
 
 import java.util.Map;
-
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import com.aurora.rti.dao.EventDetailsDao;
 import com.aurora.rti.emuns.EventTypes;
 import com.aurora.rti.model.DeviceDetails;
@@ -21,7 +18,7 @@ import com.aurora.rti.util.EventDetailsDTO;
 @Service("eventDetailsService")
 public class EventDetailsServiceImpl implements EventDetailsService {
 
-	private static final Logger logger = Logger.getLogger(EventDetailsServiceImpl.class);
+	//private static final Logger logger = Logger.getLogger(EventDetailsServiceImpl.class);
 	private CommonService commonService = null;
 	private BrowserDetailsService browserDetailsService = null;
 	private EventDetailsDao eventDetailsDao = null;
@@ -166,7 +163,7 @@ public class EventDetailsServiceImpl implements EventDetailsService {
 				res = Constants.SUCCESS;
 			}
 		} catch(Exception e) {
-			logger.error("++++++++++ Error in saveEventDetails in EventDetailsServiceImpl :"+e);
+			//logger.error("++++++++++ Error in saveEventDetails in EventDetailsServiceImpl :"+e);
 		}
 		return res;
 	}

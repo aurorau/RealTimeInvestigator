@@ -17,6 +17,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name="proxy_details")
 public class ProxyDetails implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+	
 	private Long PID;
 	private String ipAddress;
 	private String countryCode;

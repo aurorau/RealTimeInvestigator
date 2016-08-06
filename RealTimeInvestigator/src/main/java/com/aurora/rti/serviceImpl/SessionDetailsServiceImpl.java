@@ -1,7 +1,6 @@
 package com.aurora.rti.serviceImpl;
 
 import javax.servlet.http.HttpServletRequest;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -19,7 +18,7 @@ import com.aurora.rti.util.EventDetailsDTO;
 @Service("sessionDetailsService")
 @EnableScheduling
 public class SessionDetailsServiceImpl implements SessionDetailsService {
-	private static final Logger logger = Logger.getLogger(SessionDetailsServiceImpl.class);
+	//private static final Logger logger = Logger.getLogger(SessionDetailsServiceImpl.class);
 	private CommonService commonService = null;
 	private DeviceDetailsService deviceDetailsService = null;
 	private SessionDetailsDao sessionDetailsDao = null;
@@ -72,7 +71,7 @@ public class SessionDetailsServiceImpl implements SessionDetailsService {
 				res = Constants.SUCCESS;
 			}
 		} catch(Exception e) {
-			logger.error("+++++++++ Error in saveSessionDetails in SessionDetailsServiceImpl :"+e);
+			//logger.error("+++++++++ Error in saveSessionDetails in SessionDetailsServiceImpl :"+e);
 		}
 		return res;
 	}
@@ -95,7 +94,7 @@ public class SessionDetailsServiceImpl implements SessionDetailsService {
 				}
 			}
 		} catch(Exception e){
-			logger.error("+++++++++ Error in heartBeat in SessionDetailsServiceImpl :"+e);
+			//logger.error("+++++++++ Error in heartBeat in SessionDetailsServiceImpl :"+e);
 		}
 		return res;
 	}
@@ -109,7 +108,7 @@ public class SessionDetailsServiceImpl implements SessionDetailsService {
 		try{
 			sessionDetailsDao.changeSessionStatus(currentTime, beforeTime, beforeHeartBeatTime);
 		} catch(Exception e){
-			logger.error("+++++++++ Error in changeSessionStatus in SessionDetailsServiceImpl :"+e);
+			//logger.error("+++++++++ Error in changeSessionStatus in SessionDetailsServiceImpl :"+e);
 		}
 		
 	}

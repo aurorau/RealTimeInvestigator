@@ -1,10 +1,8 @@
 package com.aurora.rti.dao;
 
 import java.util.List;
-
 import com.aurora.rti.model.SessionDetails;
 import com.aurora.rti.util.UserCountDTO;
-import com.aurora.rti.util.UserDetailsDTO;
 
 public interface SessionDetailsDao {
 
