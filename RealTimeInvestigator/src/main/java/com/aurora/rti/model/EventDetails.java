@@ -16,6 +16,7 @@ public class EventDetails implements Serializable {
 	
 	private Long EID;
 	private String eventTypes;
+	private String eventCategory;
 	private String eventName;
 	private String triggeredTime;
 	private String coordinateX;
@@ -50,6 +51,13 @@ public class EventDetails implements Serializable {
 		this.eventTypes = eventTypes;
 	}
 	
+	@Column(name="event_category", nullable=true, length=100)
+	public String getEventCategory() {
+		return eventCategory;
+	}
+	public void setEventCategory(String eventCategory) {
+		this.eventCategory = eventCategory;
+	}
 	@Column(name="event_name", nullable=true, length=100)
 	public String getEventName() {
 		return eventName;
@@ -174,37 +182,23 @@ public class EventDetails implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((EID == null) ? 0 : EID.hashCode());
-		result = prime * result
-				+ ((coordinateX == null) ? 0 : coordinateX.hashCode());
-		result = prime * result
-				+ ((coordinateY == null) ? 0 : coordinateY.hashCode());
-		result = prime * result
-				+ ((eventName == null) ? 0 : eventName.hashCode());
-		result = prime * result
-				+ ((eventTypes == null) ? 0 : eventTypes.hashCode());
-		result = prime * result
-				+ ((imageName == null) ? 0 : imageName.hashCode());
-		result = prime * result
-				+ ((numOfTaps == null) ? 0 : numOfTaps.hashCode());
-		result = prime * result
-				+ ((orientation == null) ? 0 : orientation.hashCode());
-		result = prime * result
-				+ ((screenHeight == null) ? 0 : screenHeight.hashCode());
-		result = prime * result
-				+ ((screenWidth == null) ? 0 : screenWidth.hashCode());
-		result = prime * result
-				+ ((scrollTop == null) ? 0 : scrollTop.hashCode());
+		result = prime * result + ((coordinateX == null) ? 0 : coordinateX.hashCode());
+		result = prime * result + ((coordinateY == null) ? 0 : coordinateY.hashCode());
+		result = prime * result + ((eventCategory == null) ? 0 : eventCategory.hashCode());
+		result = prime * result + ((eventName == null) ? 0 : eventName.hashCode());
+		result = prime * result + ((eventTypes == null) ? 0 : eventTypes.hashCode());
+		result = prime * result + ((imageName == null) ? 0 : imageName.hashCode());
+		result = prime * result + ((numOfTaps == null) ? 0 : numOfTaps.hashCode());
+		result = prime * result + ((orientation == null) ? 0 : orientation.hashCode());
+		result = prime * result + ((screenHeight == null) ? 0 : screenHeight.hashCode());
+		result = prime * result + ((screenWidth == null) ? 0 : screenWidth.hashCode());
+		result = prime * result + ((scrollTop == null) ? 0 : scrollTop.hashCode());
 		result = prime * result + ((tagName == null) ? 0 : tagName.hashCode());
-		result = prime * result
-				+ ((timeZone == null) ? 0 : timeZone.hashCode());
-		result = prime * result
-				+ ((triggeredTime == null) ? 0 : triggeredTime.hashCode());
-		result = prime * result
-				+ ((viewportHeight == null) ? 0 : viewportHeight.hashCode());
-		result = prime * result
-				+ ((viewportWidth == null) ? 0 : viewportWidth.hashCode());
-		result = prime * result
-				+ ((zoneDateTime == null) ? 0 : zoneDateTime.hashCode());
+		result = prime * result + ((timeZone == null) ? 0 : timeZone.hashCode());
+		result = prime * result + ((triggeredTime == null) ? 0 : triggeredTime.hashCode());
+		result = prime * result + ((viewportHeight == null) ? 0 : viewportHeight.hashCode());
+		result = prime * result + ((viewportWidth == null) ? 0 : viewportWidth.hashCode());
+		result = prime * result + ((zoneDateTime == null) ? 0 : zoneDateTime.hashCode());
 		return result;
 	}
 	@Override
@@ -230,6 +224,11 @@ public class EventDetails implements Serializable {
 			if (other.coordinateY != null)
 				return false;
 		} else if (!coordinateY.equals(other.coordinateY))
+			return false;
+		if (eventCategory == null) {
+			if (other.eventCategory != null)
+				return false;
+		} else if (!eventCategory.equals(other.eventCategory))
 			return false;
 		if (eventName == null) {
 			if (other.eventName != null)
@@ -305,17 +304,11 @@ public class EventDetails implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "EventDetails [EID=" + EID + ", eventTypes=" + eventTypes
-				+ ", eventName=" + eventName + ", triggeredTime="
-				+ triggeredTime + ", coordinateX=" + coordinateX
-				+ ", coordinateY=" + coordinateY + ", screenWidth="
-				+ screenWidth + ", screenHeight=" + screenHeight
-				+ ", orientation=" + orientation + ", viewportHeight="
-				+ viewportHeight + ", viewportWidth=" + viewportWidth
-				+ ", numOfTaps=" + numOfTaps + ", tagName=" + tagName
-				+ ", scrollTop=" + scrollTop + ", timeZone=" + timeZone
-				+ ", zoneDateTime=" + zoneDateTime + ", imageName=" + imageName
-				+ "]";
+		return "EventDetails [EID=" + EID + ", eventTypes=" + eventTypes + ", eventCategory=" + eventCategory
+				+ ", eventName=" + eventName + ", triggeredTime=" + triggeredTime + ", coordinateX=" + coordinateX
+				+ ", coordinateY=" + coordinateY + ", screenWidth=" + screenWidth + ", screenHeight=" + screenHeight
+				+ ", orientation=" + orientation + ", viewportHeight=" + viewportHeight + ", viewportWidth="
+				+ viewportWidth + ", numOfTaps=" + numOfTaps + ", tagName=" + tagName + ", scrollTop=" + scrollTop
+				+ ", timeZone=" + timeZone + ", zoneDateTime=" + zoneDateTime + ", imageName=" + imageName + "]";
 	}
-
 }

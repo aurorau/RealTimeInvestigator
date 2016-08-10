@@ -11,6 +11,7 @@ public class UserDetailsDTO {
 	private Long eid;
 	private String eventTriggeredTime;
 	private String eventName;
+	private String eventCategory;
 	private String coordinateX;
 	private String coordinateY;
 	private Long did;
@@ -31,6 +32,8 @@ public class UserDetailsDTO {
 	private String lastAccessTime;
 	private String firstAccessTime;
 	private String eventStatus = "NOT FRAUD";
+	private String platform;
+
 
 	public String getBrowserVersion() {
 		return browserVersion;
@@ -200,6 +203,18 @@ public class UserDetailsDTO {
 	}
 	public void setEventStatus(String eventStatus) {
 		this.eventStatus = eventStatus;
+	}
+	public String getPlatform() {
+		return platform;
+	}
+	public void setPlatform(String platform) {
+		this.platform = platform;
+	}
+	public String getEventCategory() {
+		return eventCategory;
+	}
+	public void setEventCategory(String eventCategory) {
+		this.eventCategory = eventCategory;
 	}
 	
 }

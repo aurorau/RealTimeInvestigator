@@ -21,7 +21,7 @@ public class DeviceDetails implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	private Long DID;
-	private String deviceType;
+	private String devicePlatform;
 	private String deviceName;
 	private String osName;
 	private String osManufacture;
@@ -40,12 +40,12 @@ public class DeviceDetails implements Serializable {
 		DID = dID;
 	}
 	
-	@Column(name="device_type", nullable=true, length=100)
-	public String getDeviceType() {
-		return deviceType;
+	@Column(name="device_platform", nullable=true, length=100)
+	public String getDevicePlatform() {
+		return devicePlatform;
 	}
-	public void setDeviceType(String deviceType) {
-		this.deviceType = deviceType;
+	public void setDevicePlatform(String devicePlatform) {
+		this.devicePlatform = devicePlatform;
 	}
 	
 	@Column(name="device_name", nullable=true, length=100)
@@ -105,7 +105,6 @@ public class DeviceDetails implements Serializable {
 	public void setBrowserDetailsList(List<BrowserDetails> browserDetailsList) {
 		this.browserDetailsList = browserDetailsList;
 	}
-	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -113,7 +112,7 @@ public class DeviceDetails implements Serializable {
 		result = prime * result + ((DID == null) ? 0 : DID.hashCode());
 		result = prime * result + ((browserDetailsList == null) ? 0 : browserDetailsList.hashCode());
 		result = prime * result + ((deviceName == null) ? 0 : deviceName.hashCode());
-		result = prime * result + ((deviceType == null) ? 0 : deviceType.hashCode());
+		result = prime * result + ((devicePlatform == null) ? 0 : devicePlatform.hashCode());
 		result = prime * result + ((height == null) ? 0 : height.hashCode());
 		result = prime * result + ((orientation == null) ? 0 : orientation.hashCode());
 		result = prime * result + ((osManufacture == null) ? 0 : osManufacture.hashCode());
@@ -145,10 +144,10 @@ public class DeviceDetails implements Serializable {
 				return false;
 		} else if (!deviceName.equals(other.deviceName))
 			return false;
-		if (deviceType == null) {
-			if (other.deviceType != null)
+		if (devicePlatform == null) {
+			if (other.devicePlatform != null)
 				return false;
-		} else if (!deviceType.equals(other.deviceType))
+		} else if (!devicePlatform.equals(other.devicePlatform))
 			return false;
 		if (height == null) {
 			if (other.height != null)
@@ -179,9 +178,9 @@ public class DeviceDetails implements Serializable {
 	}
 	@Override
 	public String toString() {
-		return "DeviceDetails [DID=" + DID + ", deviceType=" + deviceType + ", deviceName=" + deviceName + ", osName="
-				+ osName + ", osManufacture=" + osManufacture + ", orientation=" + orientation + ", width=" + width
-				+ ", height=" + height + ", browserDetailsList=" + browserDetailsList + "]";
+		return "DeviceDetails [DID=" + DID + ", devicePlatform=" + devicePlatform + ", deviceName=" + deviceName
+				+ ", osName=" + osName + ", osManufacture=" + osManufacture + ", orientation=" + orientation
+				+ ", width=" + width + ", height=" + height + ", browserDetailsList=" + browserDetailsList + "]";
 	}
 	
 }

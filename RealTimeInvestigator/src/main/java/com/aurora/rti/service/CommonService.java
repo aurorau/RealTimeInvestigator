@@ -3,6 +3,8 @@ package com.aurora.rti.service;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.mobile.device.Device;
+
 import com.aurora.rti.util.GeoLocation;
 import com.aurora.rti.util.UserCountDTO;
 import com.aurora.rti.util.UserDetailsDTO;
@@ -22,5 +24,6 @@ public interface CommonService {
 	Map<String, Object> getHeaderDetailsData(Long sid);
 	Map<String, Object> getAnalyseData(Long sid);
 	List<String> getCountryListByTimeOffset(String offset);
+	String deviceIdentification(Device device);
 	
 }

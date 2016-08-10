@@ -1,11 +1,14 @@
 package com.aurora.rti.serviceImpl;
 
 import java.util.List;
+
 import javax.transaction.Transactional;
 import nl.bitwalker.useragentutils.Browser;
 import nl.bitwalker.useragentutils.BrowserType;
 import nl.bitwalker.useragentutils.UserAgent;
 import nl.bitwalker.useragentutils.Version;
+
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.aurora.rti.dao.BrowserDetailsDao;
@@ -53,7 +56,7 @@ public class BrowserDetailsServiceImpl implements BrowserDetailsService {
 			
 			browserDetails.setBrowserName(browserName);
 			browserDetails.setBrowserType(browserType.toString());
-			browserDetails.setBrowserVersion(browserVersion.toString());
+			//browserDetails.setBrowserVersion(browserVersion.toString());
 			browserDetails.setUserAgetntId(getId);
 			browserDetails.setRefererURL(refererURL);
 			browserDetails.setDeviceDetails(deviceDetails);

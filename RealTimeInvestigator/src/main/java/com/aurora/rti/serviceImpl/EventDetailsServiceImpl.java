@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.aurora.rti.dao.EventDetailsDao;
+import com.aurora.rti.emuns.EventCategory;
 import com.aurora.rti.emuns.EventTypes;
 import com.aurora.rti.model.DeviceDetails;
 import com.aurora.rti.model.EventDetails;
@@ -72,7 +73,7 @@ public class EventDetailsServiceImpl implements EventDetailsService {
 			 eventDetails.setTagName(tagName);
 			 
 			 if(imageName.equalsIgnoreCase("-1")){
-				 eventDetails.setImageName("No Image");
+				 eventDetails.setImageName(Constants.NO_IMG);
 			 } else {
 				 eventDetails.setImageName(imageName); 
 			 }
@@ -83,69 +84,55 @@ public class EventDetailsServiceImpl implements EventDetailsService {
 				 eventDetails.setScrollTop(elementScrollTopPx); 
 			 }
 			 
-			 if(eventType.equalsIgnoreCase("LC")) {
+			 if(eventType.equalsIgnoreCase(EventTypes.LEFT_CLICK.getEventTypes())) {
 				 eventDetails.setEventName(EventTypes.LEFT_CLICK.name());
 				 eventDetails.setEventTypes(EventTypes.LEFT_CLICK.getEventTypes());
+				 eventDetails.setEventCategory(EventCategory.DESKTOP_CATEGORY.getState());
 				 
-			 } else if(eventType.equalsIgnoreCase("RC")) {
+			 } else if(eventType.equalsIgnoreCase(EventTypes.RIGHT_CLICK.getEventTypes())) {
 				 eventDetails.setEventName(EventTypes.RIGHT_CLICK.name());
 				 eventDetails.setEventTypes(EventTypes.RIGHT_CLICK.getEventTypes());
+				 eventDetails.setEventCategory(EventCategory.DESKTOP_CATEGORY.getState());
 				 
-			 } else if(eventType.equalsIgnoreCase("DC")) {
+			 } else if(eventType.equalsIgnoreCase(EventTypes.DB_CLICK.getEventTypes())) {
 				 eventDetails.setEventName(EventTypes.DB_CLICK.name());
 				 eventDetails.setEventTypes(EventTypes.DB_CLICK.getEventTypes());
+				 eventDetails.setEventCategory(EventCategory.DESKTOP_CATEGORY.getState());
 				 
-			 } else if(eventType.equalsIgnoreCase("KP")) {
-				 eventDetails.setEventName(EventTypes.KEY_PRESS.name());
-				 eventDetails.setEventTypes(EventTypes.KEY_PRESS.getEventTypes());
-				 
-			 } else if(eventType.equalsIgnoreCase("SE")) {
+			 } else if(eventType.equalsIgnoreCase(EventTypes.SCROLL_EVENT.getEventTypes())) {
 				 eventDetails.setEventName(EventTypes.SCROLL_EVENT.name());
 				 eventDetails.setEventTypes(EventTypes.SCROLL_EVENT.getEventTypes());
+				 eventDetails.setEventCategory(EventCategory.DESKTOP_CATEGORY.getState());
 				 
-			 } else if(eventType.equalsIgnoreCase("TE")) {
-				 eventDetails.setEventName(EventTypes.TOUCH_EVENT.name());
-				 eventDetails.setEventTypes(EventTypes.TOUCH_EVENT.getEventTypes());
-				 
-			 } else if(eventType.equalsIgnoreCase("DZE")) {
-				 eventDetails.setEventName(EventTypes.DESKTOP_ZOOM.name());
-				 eventDetails.setEventTypes(EventTypes.DESKTOP_ZOOM.getEventTypes());
-				 
-			 } else if(eventType.equalsIgnoreCase("TZE")) {
-				 eventDetails.setEventName(EventTypes.TOUCH_ZOOM.name());
-				 eventDetails.setEventTypes(EventTypes.TOUCH_ZOOM.getEventTypes());
-				 
-			 } else if(eventType.equalsIgnoreCase("TZE_SE")) {
-				 eventDetails.setEventName(EventTypes.TOUCH_ZOOM_EVENT_SCROLL.name());
-				 eventDetails.setEventTypes(EventTypes.TOUCH_ZOOM_EVENT_SCROLL.getEventTypes());
-				 
-			 }  else if(eventType.equalsIgnoreCase("TE_SE")) {
-				 eventDetails.setEventName(EventTypes.TOUCH_SCROLL.name());
-				 eventDetails.setEventTypes(EventTypes.TOUCH_SCROLL.getEventTypes());
-				 
-			 }  else if(eventType.equalsIgnoreCase("TM")) {
-				 eventDetails.setEventName(EventTypes.TOUCH_MOVE.name());
-				 eventDetails.setEventTypes(EventTypes.TOUCH_MOVE.getEventTypes());
-				 
-			 } else if(eventType.equalsIgnoreCase("DSE")) {
-				 eventDetails.setEventName(EventTypes.DESKTOP_SCROLL.name());
-				 eventDetails.setEventTypes(EventTypes.DESKTOP_SCROLL.getEventTypes());
-				 
-			 } else if(eventType.equalsIgnoreCase("TS")) {
+			 } else if(eventType.equalsIgnoreCase(EventTypes.TOUCH_START.getEventTypes())) {
 				 eventDetails.setEventName(EventTypes.TOUCH_START.name());
 				 eventDetails.setEventTypes(EventTypes.TOUCH_START.getEventTypes());
+				 eventDetails.setEventCategory(EventCategory.MOBILE_CATEGORY.getState());
 				 
-			 } else if(eventType.equalsIgnoreCase("RF")) {
-				 eventDetails.setEventName(EventTypes.REFRESH_EVENT.name());
-				 eventDetails.setEventTypes(EventTypes.REFRESH_EVENT.getEventTypes());
+			 }  else if(eventType.equalsIgnoreCase(EventTypes.TOUCH_MOVE.getEventTypes())) {
+				 eventDetails.setEventName(EventTypes.TOUCH_MOVE.name());
+				 eventDetails.setEventTypes(EventTypes.TOUCH_MOVE.getEventTypes());
+				 eventDetails.setEventCategory(EventCategory.MOBILE_CATEGORY.getState());
 				 
-			 } else if(eventType.equalsIgnoreCase("STZE")) {
+			 }  else if(eventType.equalsIgnoreCase(EventTypes.TOUCH_ZOOM.getEventTypes())) {
+				 eventDetails.setEventName(EventTypes.TOUCH_ZOOM.name());
+				 eventDetails.setEventTypes(EventTypes.TOUCH_ZOOM.getEventTypes());
+				 eventDetails.setEventCategory(EventCategory.MOBILE_CATEGORY.getState());
+				 
+			 } else if(eventType.equalsIgnoreCase(EventTypes.SWAP_TOUCH_ZOOM.getEventTypes())) {
 				 eventDetails.setEventName(EventTypes.SWAP_TOUCH_ZOOM.name());
 				 eventDetails.setEventTypes(EventTypes.SWAP_TOUCH_ZOOM.getEventTypes());
+				 eventDetails.setEventCategory(EventCategory.MOBILE_CATEGORY.getState());
 				 
-			 } else if(eventType.equalsIgnoreCase("TSE")) {
-				 eventDetails.setEventName(EventTypes.TOUCH_SCROLL_EVENT.name());
-				 eventDetails.setEventTypes(EventTypes.TOUCH_SCROLL_EVENT.getEventTypes());
+			 } else if(eventType.equalsIgnoreCase(EventTypes.REFRESH_EVENT.getEventTypes())) {
+				 eventDetails.setEventName(EventTypes.REFRESH_EVENT.name());
+				 eventDetails.setEventTypes(EventTypes.REFRESH_EVENT.getEventTypes());
+				 eventDetails.setEventCategory(EventCategory.COMMON_CATEGORY.getState());
+				 
+			 } else if(eventType.equalsIgnoreCase(EventTypes.KEY_PRESS.getEventTypes())) {
+				 eventDetails.setEventName(EventTypes.KEY_PRESS.name());
+				 eventDetails.setEventTypes(EventTypes.KEY_PRESS.getEventTypes());
+				 eventDetails.setEventCategory(EventCategory.COMMON_CATEGORY.getState());
 				 
 			 } else {
 				 System.out.println("New Type :"+eventType );
@@ -156,7 +143,7 @@ public class EventDetailsServiceImpl implements EventDetailsService {
 			 eventDetails.setTimeZone(map.get("timeZone"));
 			 eventDetails.setZoneDateTime(map.get("dateTime"));
 			 
-			eventDetailsDao.saveEventDetails(eventDetails);
+			//eventDetailsDao.saveEventDetails(eventDetails);
 			String status = browserDetailsService.saveBrowserDetails(dto, sessionDetails, deviceDetails, eventDetails);
 			
 			if(status.equalsIgnoreCase(Constants.SUCCESS)){

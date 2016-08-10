@@ -6,6 +6,8 @@ public class Constants {
 	public static final String FAIL = "fail";
 	public static final String INACTIVE = "inactive";
 	public static final String ACTIVE = "active";
+	public static final String IMG_TAG = "IMG";
+	public static final String NO_IMG = "No Image";
 	  /**
 	   * This is userDetailsTable table id
 	   */

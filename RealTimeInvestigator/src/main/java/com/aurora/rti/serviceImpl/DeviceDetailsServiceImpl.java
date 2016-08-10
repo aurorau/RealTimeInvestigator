@@ -37,18 +37,19 @@ public class DeviceDetailsServiceImpl implements DeviceDetailsService {
 		try {
 			UserAgent userAgent1 = UserAgent.parseUserAgentString(dto.getUserAgent());
 			OperatingSystem agent = userAgent1.getOperatingSystem(); 
-	        String deviceName = agent.getDeviceType().getName();
+	       // String deviceName = agent.getDeviceType().getName();
 	        String osName = agent.getName();
 	        Manufacturer osManufacture = agent.getManufacturer();
 	        String orientation = dto.getOrientation();
 	        
 			DeviceDetails deviceDetails = new DeviceDetails();
-			deviceDetails.setDeviceName(deviceName);
+			deviceDetails.setDeviceName(dto.getDeviceType());
 			deviceDetails.setOrientation(orientation);
 			deviceDetails.setOsManufacture(osManufacture.toString());
 			deviceDetails.setOsName(osName);
+			deviceDetails.setDevicePlatform(dto.getDevicePlatform());
 			
-			deviceDetailsDao.saveDeviceDetails(deviceDetails);
+			//deviceDetailsDao.saveDeviceDetails(deviceDetails);
 			String status = eventDetailsService.saveEventDetails(dto, sessionDetails, deviceDetails);
 			
 			if(status.equalsIgnoreCase(Constants.SUCCESS)){

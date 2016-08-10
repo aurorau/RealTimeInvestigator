@@ -3,10 +3,13 @@ package com.aurora.rti.controller;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.aurora.rti.service.CommonService;
 import com.aurora.rti.service.SessionDetailsService;
 import com.aurora.rti.util.EventDetailsDTO;
 import com.aurora.rti.util.ResponseClass;
@@ -15,10 +18,16 @@ import com.aurora.rti.util.ResponseClass;
 @RequestMapping("/api")
 public class RTIFormController {
 	private SessionDetailsService sessionDetailsService = null;
+	private CommonService commonService = null;
 	 
 	@Autowired
 	public void setSessionDetailsService(SessionDetailsService sessionDetailsService) {
 		this.sessionDetailsService = sessionDetailsService;
+	}
+	
+	@Autowired
+	public void setCommonService(CommonService commonService) {
+		this.commonService = commonService;
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/heartBeat")
@@ -36,7 +45,7 @@ public class RTIFormController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/postEventDetails")
-    public @ResponseBody ResponseClass postEventDetails(HttpServletRequest request, HttpServletResponse response){
+    public @ResponseBody ResponseClass postEventDetails(HttpServletRequest request, HttpServletResponse response,Device device){
 		
 		ResponseClass res = new ResponseClass();
 		
@@ -68,6 +77,8 @@ public class RTIFormController {
 		dto.setRemoteAddress(request.getRemoteAddr());
 		dto.setUserAgent(request.getHeader("User-Agent"));
 		dto.setxForwarded(request.getHeader("X-FORWARDED-FOR"));
+		dto.setDeviceType(commonService.deviceIdentification(device));
+		dto.setDevicePlatform(device.getDevicePlatform().toString());
 		
         if(dto.getSessionID() == null || dto.getSessionID().equalsIgnoreCase("")){
         	dto.setSessionID(request.getSession().getId());
@@ -83,7 +94,21 @@ public class RTIFormController {
 		response.setHeader("Access-Control-Max-Age", "3600");
 		response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
 		
+		//deviceIdentification(device);
+		
 		return res;
+	}
+	
+	public void deviceIdentification(Device device){
+		if(device.isMobile()){
+			System.err.println("Your are Mobile User.");
+		}
+		else if(device.isTablet()){
+			System.err.println("Your are Tablet User.");
+		}
+		else if(device.isNormal()){
+			System.err.println("Your are Normal Browser User.");
+		}
 	}
 	
 /*	@RequestMapping(method = RequestMethod.POST, value = "/postEventDetails")

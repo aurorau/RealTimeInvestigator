@@ -87,6 +87,7 @@ public class BrowserDetailsDaoImpl extends AbstractDao<Integer, BrowserDetails> 
 					.add(Projections.property("sessionDetails.sessionCreatedTime").as("firstAccessTime"))
 					.add(Projections.property("eventDetails.EID").as("eid"))
 					.add(Projections.property("eventDetails.triggeredTime").as("eventTriggeredTime"))
+					.add(Projections.property("eventDetails.eventCategory").as("eventCategory"))
 					.add(Projections.property("eventDetails.eventTypes").as("eventName"))
 					.add(Projections.property("eventDetails.coordinateX").as("coordinateX"))
 					.add(Projections.property("eventDetails.coordinateY").as("coordinateY"))
@@ -106,7 +107,8 @@ public class BrowserDetailsDaoImpl extends AbstractDao<Integer, BrowserDetails> 
 					.add(Projections.property("browserVersion").as("browserVersion"))
 					.add(Projections.property("userAgetntId").as("userAgentId"))
 					.add(Projections.property("deviceDetails.DID").as("did"))
-					.add(Projections.property("deviceDetails.osName").as("osName"))
+					.add(Projections.property("deviceDetails.osName").as("osName"))			
+					.add(Projections.property("deviceDetails.devicePlatform").as("platform"))
 					.add(Projections.property("deviceDetails.deviceName").as("deviceName")));
 			list = criteria.setResultTransformer(Transformers.aliasToBean(UserDetailsDTO.class)).list();
 			return list;

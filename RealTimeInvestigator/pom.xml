@@ -89,6 +89,13 @@
 		<version>${aspectj.version}</version>
 	</dependency>
 
+	<!-- SPRING-MOBILE DEPENDENCY -->
+	<dependency>
+    	<groupId>org.springframework.mobile</groupId>
+    	<artifactId>spring-mobile-device</artifactId>
+    	<version>1.1.5.RELEASE</version>
+	</dependency>
+
   	<!-- HIBERNATE DEPENDENCY -->
   	<dependency>
       	<groupId>org.hibernate</groupId>

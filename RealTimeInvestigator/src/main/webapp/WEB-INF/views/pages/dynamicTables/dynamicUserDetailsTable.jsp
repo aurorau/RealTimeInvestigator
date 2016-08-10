@@ -5,9 +5,17 @@
 
 <display:table name="userDetailsTable" class="table events-table" cellspacing="0" requestURI="./dashboardFormController/getUserDetailsBySessionId" id="userDetailsTable" sort="external" partialList="true" size="${size}" pagesize="${gridSize}" export="false">
 
+     <display:column property="userAgentId" title="ID"/>
      <display:column property="eventName" title="Event"/>
      <display:column property="tagName" title="Tag"/>
-     <display:column property="imageName" title="Image"/>
+     <display:column title="ImagePath">
+     	<c:if test="${userDetailsTable.imageName == 'No Image' || userDetailsTable.imageName == ''}">
+     		<label>No</label>
+     	</c:if>
+     	<c:if test="${userDetailsTable.imageName != 'No Image' && userDetailsTable.imageName != ''}">
+     		<label>Yes</label>
+     	</c:if>
+     </display:column>
      <display:column property="eventTriggeredTime" title="Triggered Time"/>
      <display:column property="numOfTaps" title="Taps"/>
     <%--  <display:column property="scrollTop" title="ScrollTop"/> --%>
@@ -20,14 +28,13 @@
 	 <display:column title="Device(W,H)">
 	 	<label>${userDetailsTable.screenWidth} , ${userDetailsTable.screenHeight}</label>
 	 </display:column>
-	<%--  <display:column property="osName" title="OS"/> --%>
+	 <display:column property="platform" title="Platform"/>
 	 <display:column title="View(W,H)">
 	 	<label>${userDetailsTable.viewportWidth} , ${userDetailsTable.viewportHeight}</label>
 	 </display:column>
-	 <display:column property="orientation" title="View"/>
+	 <display:column property="orientation" title="Orientation"/>
      <display:column property="browserName" title="Browser"/>
     <%--  <display:column property="browserVersion" title="Version"/> --%>
-     <display:column property="userAgentId" title="ID"/>
      <display:column property="eventStatus" title="Status"/>
      <display:column  title="Proxies">
      	<label>${userDetailsTable.pid.size()}</label>

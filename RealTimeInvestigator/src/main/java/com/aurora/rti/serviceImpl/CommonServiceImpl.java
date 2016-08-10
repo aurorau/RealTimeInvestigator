@@ -17,15 +17,18 @@ import org.joda.time.DateTimeZone;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mobile.device.Device;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import com.aurora.rti.dao.SessionDetailsDao;
+import com.aurora.rti.emuns.DeviceStatus;
 import com.aurora.rti.model.SessionDetails;
 import com.aurora.rti.service.AnalyseDeviceService;
 import com.aurora.rti.service.AnalyseEventService;
 import com.aurora.rti.service.AnalyseUserService;
 import com.aurora.rti.service.BrowserDetailsService;
 import com.aurora.rti.service.CommonService;
+import com.aurora.rti.service.HorizontalAnalysisService;
 import com.aurora.rti.service.ProxyDetailsService;
 import com.aurora.rti.util.GeoLocation;
 import com.aurora.rti.util.UserCountDTO;
@@ -42,6 +45,7 @@ public class CommonServiceImpl implements CommonService {
 	 private AnalyseDeviceService analyseDeviceService = null;
 	 private AnalyseEventService analyseEventService = null;
 	 private AnalyseUserService analyseUserService = null;
+	 private HorizontalAnalysisService horizontalAnalysisService = null;
 	
 	 @Autowired
 	 public void setAnalyseDeviceService(AnalyseDeviceService analyseDeviceService) {
@@ -69,9 +73,15 @@ public class CommonServiceImpl implements CommonService {
 	}
 
 	@Autowired
-	 public void setSessionDetailsDao(SessionDetailsDao sessionDetailsDao) {
+	public void setSessionDetailsDao(SessionDetailsDao sessionDetailsDao) {
 		this.sessionDetailsDao = sessionDetailsDao;
-	 }
+	}
+	
+	@Autowired
+	public void setHorizontalAnalysisService(HorizontalAnalysisService horizontalAnalysisService) {
+		this.horizontalAnalysisService = horizontalAnalysisService;
+	}
+
 	public long getTimeDifference(String time1, String time2){
 		DateTime crDate = getDate(time1);
 		DateTime prDate = getDate(time2);
@@ -225,7 +235,8 @@ public class CommonServiceImpl implements CommonService {
 		
 		try {
 			list = browserDetailsService.getUserDetailsBySessionId(sortField,order,start,gridTableSize,searchq, sessionPK);
-			list = analyseEventService.eventVerification(list);
+			//list = analyseEventService.eventVerification(list);
+			list = horizontalAnalysisService.horizontalAnalysis(list);
 			list = proxyDetailsService.getPID(list);
 		} catch(Exception e) {
 			//logger.error("+++++++++ Error in getUserDetailsBySessionId in CommonServiceImpl :"+e);
@@ -331,7 +342,25 @@ public class CommonServiceImpl implements CommonService {
 		
 		return map;
 	}
-	 static {
+	 
+	public String deviceIdentification(Device device) {
+		String deviceType=null;
+		System.err.println("Platform :"+device.getDevicePlatform());
+		if(device.isMobile()){
+			deviceType = DeviceStatus.MOBILE.getName();
+		}
+		else if(device.isTablet()){
+			deviceType = DeviceStatus.TABLET.getName();
+		}
+		else if(device.isNormal()){
+			deviceType = DeviceStatus.DESKTOP.getName();
+		} else {
+			deviceType = DeviceStatus.OTHER.getName();
+		}
+		return deviceType;
+	}
+
+	static {
         try {
             lookUp = new LookupService(
             		CommonServiceImpl.class.getResource("/GeoLiteCity.dat").getFile(),
@@ -350,4 +379,6 @@ public class CommonServiceImpl implements CommonService {
 	 public static GeoLocation getLocation(InetAddress ipAddress){
 	        return GeoLocation.map(lookUp.getLocation(ipAddress));
 	 }
+
+
 }

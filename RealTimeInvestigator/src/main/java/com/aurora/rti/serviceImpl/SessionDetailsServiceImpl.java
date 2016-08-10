@@ -64,7 +64,7 @@ public class SessionDetailsServiceImpl implements SessionDetailsService {
 				sessionDetails.setLastAccessTime(currentTime);
 				sessionDetails.setStatus(State.ACTIVE.getName());
 			}
-			sessionDetailsDao.saveSessionDetails(sessionDetails);
+			//sessionDetailsDao.saveSessionDetails(sessionDetails);
 			String status = deviceDetailsService.saveDeviceDetails(dto, sessionDetails);
 		
 			if(status.equalsIgnoreCase(Constants.SUCCESS)) {

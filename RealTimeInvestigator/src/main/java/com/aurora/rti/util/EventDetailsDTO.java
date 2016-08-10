@@ -29,6 +29,8 @@ public class EventDetailsDTO {
 	private String referer;
 	private String xForwarded;
 	private String remoteAddress;
+	private String deviceType;
+	private String devicePlatform;
 	
 	public String getEventType() {
 		return eventType;
@@ -191,6 +193,18 @@ public class EventDetailsDTO {
 	}
 	public void setRemoteAddress(String remoteAddress) {
 		this.remoteAddress = remoteAddress;
+	}
+	public String getDeviceType() {
+		return deviceType;
+	}
+	public void setDeviceType(String deviceType) {
+		this.deviceType = deviceType;
+	}
+	public String getDevicePlatform() {
+		return devicePlatform;
+	}
+	public void setDevicePlatform(String devicePlatform) {
+		this.devicePlatform = devicePlatform;
 	}
 	
 }

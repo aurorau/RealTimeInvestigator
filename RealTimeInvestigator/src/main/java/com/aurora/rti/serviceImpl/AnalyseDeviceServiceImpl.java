@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.stereotype.Service;
+
+import com.aurora.rti.emuns.DeviceStatus;
 import com.aurora.rti.service.AnalyseDeviceService;
 import com.aurora.rti.util.UserDetailsDTO;
 
@@ -23,7 +25,9 @@ public class AnalyseDeviceServiceImpl implements AnalyseDeviceService {
 			Map<String,Double> deviceTypeByOrientation = deviceIdentifyByOrientation(list);
 			Map<String,Double> deviceTypeByDimention = deviceIdentifyByDimention(list);
 
-			map1.put("deviceTypeByEvents",deviceTypeByEvents);
+			if(deviceTypeByEvents != null){
+				map1.put("deviceTypeByEvents",deviceTypeByEvents);
+			}
 			map1.put("deviceTypeByOrientation",deviceTypeByOrientation);
 			map1.put("deviceTypeByDimention",deviceTypeByDimention);
 			
@@ -73,9 +77,10 @@ public class AnalyseDeviceServiceImpl implements AnalyseDeviceService {
 		
 		double totalCount = mobileDevice + desktopDevice;
 		
-		map1.put("desktopDevice", (double) (desktopDevice/totalCount));
-		map1.put("mobileDevice", (double) (mobileDevice/totalCount));
-		
+		if(totalCount > 0){
+			map1.put("desktopDevice", (double) (desktopDevice/totalCount));
+			map1.put("mobileDevice", (double) (mobileDevice/totalCount));
+		}
 		return map1;
 	}
 	public Map<String,Double> deviceIdentifyByOrientation(List<UserDetailsDTO> dto){
@@ -122,6 +127,8 @@ public class AnalyseDeviceServiceImpl implements AnalyseDeviceService {
 		String deviceType = "Not Yet";
 		int desktopCount = 0;
 		int mobileCount = 0; 
+		double desktopPercentage = 0;
+		double mobilePercentage = 0;
 		
 		for(Map.Entry<String, Map<String,Double>> entry : map.entrySet()) {
 			//System.out.println("Attribute : "+entry.getKey());
@@ -134,13 +141,29 @@ public class AnalyseDeviceServiceImpl implements AnalyseDeviceService {
 				//System.out.println(entry1.getKey()+" - "+entry1.getValue());
 			}
 		}
-		if((desktopCount/3)*100 > 80){
+		
+		desktopPercentage = desktopCount/3;
+		mobilePercentage = mobileCount/3;
+		
+		if(desktopPercentage == mobilePercentage){
+			deviceType = DeviceStatus.OTHER.getState();
+		} else {
+			if(desktopPercentage > mobilePercentage){
+				deviceType = DeviceStatus.DESKTOP.getState();
+			} else {
+				deviceType = DeviceStatus.MOBILE.getState();
+			}
+		}
+		
+
+		
+/*		if((desktopCount/3)*100 > 80){
 			deviceType = "Desktop";
 		} else if((mobileCount/3)*100 > 80){
 			deviceType = "Mobile";
 		} else {
 			deviceType = "Fraud";
-		}
+		}*/
 		return deviceType;
 	}
 	
