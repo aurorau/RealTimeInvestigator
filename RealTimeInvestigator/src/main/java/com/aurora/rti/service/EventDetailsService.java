@@ -6,6 +6,6 @@ import com.aurora.rti.util.EventDetailsDTO;
 
 public interface EventDetailsService {
 
-	String saveEventDetails(EventDetailsDTO dto, SessionDetails sessionDetails, DeviceDetails deviceDetails);
+	String saveEventDetails(EventDetailsDTO dto, SessionDetails sessionDetails, DeviceDetails deviceDetails) throws Exception;
 
 }

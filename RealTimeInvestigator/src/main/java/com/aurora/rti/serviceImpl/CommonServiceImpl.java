@@ -37,7 +37,6 @@ import com.maxmind.geoip.LookupService;
 
 @Service("commonService")
 public class CommonServiceImpl implements CommonService {
-	 //private static final Logger logger = Logger.getLogger(CommonServiceImpl.class);
 	 private static LookupService lookUp;
 	 private BrowserDetailsService browserDetailsService = null;
 	 private ProxyDetailsService proxyDetailsService = null;
@@ -95,107 +94,79 @@ public class CommonServiceImpl implements CommonService {
 		date = fmt.parseDateTime(date1);
         return date;
 	}
-	 public String getServerTime(){
+	 public String getServerTime() throws Exception{
 		 String result = null;
-		 try {
-			 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			 Date date = new Date();
-			 result = formatter.format(date);
-		 } catch(Exception e){
-			 //logger.error("++++++ Error in getServerTime in CommonServiceImpl :"+e);
-		 }
-
+		 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		 Date date = new Date();
+		 result = formatter.format(date);
 		 return result;
 	 }
-	public String beforeTime(int minutes) {
+	public String beforeTime(int minutes) throws Exception{
 		 String result = null;
-		 try{
-			 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-			 Date date = new Date();
-			 result = formatter.format(DateUtils.addMinutes(date, minutes));
-		 } catch(Exception e){
-			// logger.error("++++++ Error in beforeTime in CommonServiceImpl :"+e);
-		 }
-
+		 SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		 Date date = new Date();
+		 result = formatter.format(DateUtils.addMinutes(date, minutes));
 		 return result;
 	}
-	 public String getLocationBasedCurrentTime(String timeOffset){
+	 public String getLocationBasedCurrentTime(String timeOffset) throws Exception{
 		 String dateTime = null;
-		 try {
-			 if(!timeOffset.equalsIgnoreCase("-1")) {
-				 DateTime utc = new DateTime(DateTimeZone.UTC);
-				 DateTimeZone tz = DateTimeZone.forOffsetMillis((Integer.parseInt(timeOffset)* 60000 * -1));
-				 DateTime currentTime = utc.toDateTime(tz);
-				 
-				 DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
-				 String str = currentTime.toString(fmt);
-				 dateTime = str;
-			 }
-		 } catch(Exception e){
-			 //logger.error("++++++ Error in getLocationBasedCurrentTime in CommonServiceImpl :"+e);
+		 if(!timeOffset.equalsIgnoreCase("-1")) {
+			 DateTime utc = new DateTime(DateTimeZone.UTC);
+			 DateTimeZone tz = DateTimeZone.forOffsetMillis((Integer.parseInt(timeOffset)* 60000 * -1));
+			 DateTime currentTime = utc.toDateTime(tz);
+			 
+			 DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss");
+			 String str = currentTime.toString(fmt);
+			 dateTime = str;
 		 }
 		 return dateTime;
 	 }
 	 
-	 public Map<String, String> getCountryDateAndTime(String timeOffset) {
+	 public Map<String, String> getCountryDateAndTime(String timeOffset) throws Exception{
 		 Map<String, String> map = new HashMap<String, String>();
-		 try {
-			 if(!timeOffset.equalsIgnoreCase("-1")) {
-				 DateTime utc = new DateTime(DateTimeZone.UTC);
-				 DateTimeZone tz = DateTimeZone.forOffsetMillis((Integer.parseInt(timeOffset)* 60000 * -1));
-				 DateTime currentTime = utc.toDateTime(tz);
-				 
-				 String timeZone = currentTime.getZone().toString();
-				 
-				 DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS");
-				 String str = currentTime.toString(fmt);
-				 String dateTime = str;
-				 
-				 map.put("timeZone", timeZone);
-				 map.put("dateTime", dateTime);
-			 }
-		 } catch(Exception e){
-			 //logger.error("++++++ Error in getCountryDateAndTime in CommonServiceImpl :"+e);
+		 if(!timeOffset.equalsIgnoreCase("-1")) {
+			 DateTime utc = new DateTime(DateTimeZone.UTC);
+			 DateTimeZone tz = DateTimeZone.forOffsetMillis((Integer.parseInt(timeOffset)* 60000 * -1));
+			 DateTime currentTime = utc.toDateTime(tz);
+			 
+			 String timeZone = currentTime.getZone().toString();
+			 
+			 DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd HH:mm:ss.SSS");
+			 String str = currentTime.toString(fmt);
+			 String dateTime = str;
+			 
+			 map.put("timeZone", timeZone);
+			 map.put("dateTime", dateTime);
 		 }
 		 return map;
 	 }
 	 @Transactional
-	 public List<UserCountDTO> getCurrentUserCountList(String sortField,int order, int start, int gridTableSize, String searchq) {
+	 public List<UserCountDTO> getCurrentUserCountList(String sortField,int order, int start, int gridTableSize, String searchq) throws Exception{
 		List<UserCountDTO> dtoList = null;
 		List<UserCountDTO> returnList = new ArrayList<UserCountDTO>();
 		List<UserDetailsDTO> list = null;
-		try {
-			dtoList = sessionDetailsDao.getCurrentUserCountList(sortField, order, start, gridTableSize,searchq);
-			for(UserCountDTO dto : dtoList){
-				list = new ArrayList<UserDetailsDTO>();
-				list = browserDetailsService.analyseUserBySessionId(dto.getSid());
-				list = proxyDetailsService.getPID(list);
-				Map<String, Object> deviceMap = analyseDeviceService.deviceIdenticication(list);
-				String deviceType = (String) deviceMap.get("deviceType");
-				dto.setDeviceType(deviceType);
-				returnList.add(dto);
-			}
-			
-		} catch(Exception e) {
-			//logger.error("+++++++++ Error in getCurrentUserCountList in CommonServiceImpl :"+e);
+		dtoList = sessionDetailsDao.getCurrentUserCountList(sortField, order, start, gridTableSize,searchq);
+		
+		for(UserCountDTO dto : dtoList){
+			list = new ArrayList<UserDetailsDTO>();
+			list = browserDetailsService.analyseUserBySessionId(dto.getSid());
+			list = proxyDetailsService.getPID(list);
+			Map<String, Object> deviceMap = analyseDeviceService.deviceIdenticication(list);
+			String deviceType = (String) deviceMap.get("deviceType");
+			dto.setDeviceType(deviceType);
+			returnList.add(dto);
 		}
 		return returnList;
 	 }
 	 @Transactional
-	 public int getCurrentUserCount(String searchq) {
+	 public int getCurrentUserCount(String searchq) throws Exception{
 		int count = 0;
-		
-		try {
-			count = sessionDetailsDao.getCurrentUserCount(searchq);
-		}catch (Exception e){
-			//logger.error("+++++++++ Error in getCurrentUserCount in CommonServiceImpl :"+e);
-		}
-		
+		count = sessionDetailsDao.getCurrentUserCount(searchq);
 		return count;
 	 }
 	 
 	 @Transactional
-	 public Map<String, Integer> getDeviceCount() {
+	 public Map<String, Integer> getDeviceCount() throws Exception {
 		List<SessionDetails> activeSessionList = null;
 		List<UserDetailsDTO> list = null;
 		Map<String, Integer> deviceReturnMap = new HashMap<String, Integer>();
@@ -203,95 +174,78 @@ public class CommonServiceImpl implements CommonService {
 		Integer desktopCount = 0;
 		Integer fraudCount = 0;
 		Integer totalCount = 0;
-		try{
-			activeSessionList = sessionDetailsDao.getActiveSessions();
-			totalCount = activeSessionList.size();
-			for(SessionDetails sessionDetail : activeSessionList){
-				list = new ArrayList<UserDetailsDTO>();
-				list = browserDetailsService.analyseUserBySessionId(sessionDetail.getSID());
-				list = proxyDetailsService.getPID(list);
-				Map<String, Object> deviceMap = analyseDeviceService.deviceIdenticication(list);
-				String deviceType = (String) deviceMap.get("deviceType");
-				if(deviceType.equalsIgnoreCase("Desktop")) {
-					desktopCount += 1;
-				} else if(deviceType.equalsIgnoreCase("Mobile")){
-					mobileCount += 1;
-				} else if(deviceType.equalsIgnoreCase("Fraud")){
-					fraudCount += 1;
-				}
+
+		activeSessionList = sessionDetailsDao.getActiveSessions();
+		totalCount = activeSessionList.size();
+		for(SessionDetails sessionDetail : activeSessionList){
+			list = new ArrayList<UserDetailsDTO>();
+			list = browserDetailsService.analyseUserBySessionId(sessionDetail.getSID());
+			list = proxyDetailsService.getPID(list);
+			Map<String, Object> deviceMap = analyseDeviceService.deviceIdenticication(list);
+			String deviceType = (String) deviceMap.get("deviceType");
+			if(deviceType.equalsIgnoreCase("Desktop")) {
+				desktopCount += 1;
+			} else if(deviceType.equalsIgnoreCase("Mobile")){
+				mobileCount += 1;
+			} else if(deviceType.equalsIgnoreCase("Fraud")){
+				fraudCount += 1;
 			}
-			deviceReturnMap.put("desktopCount", desktopCount);
-			deviceReturnMap.put("mobileCount", mobileCount);
-			deviceReturnMap.put("fraudCount", fraudCount);
-			deviceReturnMap.put("totalCount", totalCount);
-		} catch (Exception e){
-			//logger.error("+++++++++ Error in getDeviceCount in CommonServiceImpl :"+e);
 		}
+		deviceReturnMap.put("desktopCount", desktopCount);
+		deviceReturnMap.put("mobileCount", mobileCount);
+		deviceReturnMap.put("fraudCount", fraudCount);
+		deviceReturnMap.put("totalCount", totalCount);
+
 		return deviceReturnMap;
 	 }
 	 @Transactional
-	 public List<UserDetailsDTO> getUserDetailsBySessionId(String sortField,int order, int start, int gridTableSize, String searchq,Long sessionPK) {
+	 public List<UserDetailsDTO> getUserDetailsBySessionId(String sortField,int order, int start, int gridTableSize, String searchq,Long sessionPK) throws Exception {
 		List<UserDetailsDTO> list = null;
+
+		list = browserDetailsService.getUserDetailsBySessionId(sortField,order,start,gridTableSize,searchq, sessionPK);
+		//list = analyseEventService.eventVerification(list);
+		list = horizontalAnalysisService.horizontalAnalysis(list);
+		list = proxyDetailsService.getPID(list);
 		
-		try {
-			list = browserDetailsService.getUserDetailsBySessionId(sortField,order,start,gridTableSize,searchq, sessionPK);
-			//list = analyseEventService.eventVerification(list);
-			list = horizontalAnalysisService.horizontalAnalysis(list);
-			list = proxyDetailsService.getPID(list);
-		} catch(Exception e) {
-			//logger.error("+++++++++ Error in getUserDetailsBySessionId in CommonServiceImpl :"+e);
-		}
 		return list;
 	 }
 	 @Transactional
-	 public int getUserDetailsCountBySessionId(String searchq, Long sessionPK) {
+	 public int getUserDetailsCountBySessionId(String searchq, Long sessionPK) throws Exception {
 		int count = 0;
-		
-		try {
-			count = browserDetailsService.getUserDetailsCountBySessionId(searchq, sessionPK);
-		}catch (Exception e){
-			//logger.error("+++++++++ Error in getUserDetailsCountBySessionId in CommonServiceImpl :"+e);
-		}
-		
+		count = browserDetailsService.getUserDetailsCountBySessionId(searchq, sessionPK);
 		return count;
 	 }
 	 @Transactional
-	 public Map<String, Object> getHeaderDetailsData(Long sid) {
+	 public Map<String, Object> getHeaderDetailsData(Long sid) throws Exception {
 		List<UserDetailsDTO> list = null;
 		Map<String, Object> map = null;
-		try{
-			list = browserDetailsService.analyseUserBySessionId(sid);
-			list = proxyDetailsService.getPID(list);
-			map = analyseEventService.getHeaderDetailsData(list);
-		} catch(Exception e){
-			//logger.error("+++++++++ Error in getHeaderDetailsData in CommonServiceImpl :"+e);
-		}
+		list = browserDetailsService.analyseUserBySessionId(sid);
+		list = proxyDetailsService.getPID(list);
+		map = analyseEventService.getHeaderDetailsData(list);
 		return map;
 	 }
 	 
 	 @Transactional
-	 public Map<String, Object> getAnalyseData(Long sid) {
+	 public Map<String, Object> getAnalyseData(Long sid) throws Exception {
 		List<UserDetailsDTO> list = null;
 		Map<String, Object> returnMap = new HashMap<String, Object>();
 		Map<String, Integer> eventAnalyseMap = null;
 		Map<String, Object> deviceAnalyseMap = null;
 		Map<String, Map<String, Integer>> userAnalyseMap = null;
-		try{
-			list = browserDetailsService.analyseUserBySessionId(sid);
-			list = proxyDetailsService.getPID(list);
-			eventAnalyseMap = analyseEventService.getEventAnalyseData(list);
-			deviceAnalyseMap = analyseDeviceService.deviceIdenticication(list);
-			userAnalyseMap = analyseUserService.getUserAnalyseData(list);
-		} catch(Exception e){
-			//logger.error("+++++++++ Error in getAnalyseData in CommonServiceImpl :"+e);
-		}
+
+		list = browserDetailsService.analyseUserBySessionId(sid);
+		list = proxyDetailsService.getPID(list);
+		eventAnalyseMap = analyseEventService.getEventAnalyseData(list);
+		deviceAnalyseMap = analyseDeviceService.deviceIdenticication(list);
+		userAnalyseMap = analyseUserService.getUserAnalyseData(list);
+
 		returnMap.put("eventAnalyseMap", eventAnalyseMap);
 		returnMap.put("deviceAnalyseMap", deviceAnalyseMap);
 		returnMap.put("userAnalyseMap", userAnalyseMap);
 		return returnMap;
 	 }
 	 
-	 public List<String> getCountryListByTimeOffset(String offset) {
+	 public List<String> getCountryListByTimeOffset(String offset) throws Exception {
 		List<String> list =  new ArrayList<String>();
 		Map<String,String> map = getCountryTimeMap();
 		
@@ -307,7 +261,7 @@ public class CommonServiceImpl implements CommonService {
 		}
 		return list;
 	 }
-	 public Map<String, String> getCountryTimeMap() {
+	 public Map<String, String> getCountryTimeMap() throws Exception {
 		Map<String, String> map =  new HashMap<String, String>();
 		Properties prop = new Properties();
 		InputStream input = null;
@@ -328,8 +282,6 @@ public class CommonServiceImpl implements CommonService {
 				map.put(key, value);
 				//System.out.println("Key : " + key + ", Value : " + value);
 			}
-		} catch(IOException ex){
-			//logger.error("+++++++++ Error in getCountryTimeMap in CommonServiceImpl :"+ex);
 		} finally {
 			if (input != null) {
 				try {
@@ -345,7 +297,6 @@ public class CommonServiceImpl implements CommonService {
 	 
 	public String deviceIdentification(Device device) {
 		String deviceType=null;
-		System.err.println("Platform :"+device.getDevicePlatform());
 		if(device.isMobile()){
 			deviceType = DeviceStatus.MOBILE.getName();
 		}

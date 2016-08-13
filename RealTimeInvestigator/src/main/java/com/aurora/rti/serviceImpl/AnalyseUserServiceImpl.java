@@ -28,7 +28,7 @@ public class AnalyseUserServiceImpl implements AnalyseUserService {
 		this.proxyDetailsService = proxyDetailsService;
 	}
 
-	public Map<String, Map<String, Integer>> getUserAnalyseData(List<UserDetailsDTO> dto) {
+	public Map<String, Map<String, Integer>> getUserAnalyseData(List<UserDetailsDTO> dto) throws Exception {
 		
 		Map<String,Map<String, Integer>> map = new HashMap<String, Map<String, Integer>>();
 		
@@ -144,7 +144,7 @@ public class AnalyseUserServiceImpl implements AnalyseUserService {
 		return map;
 	}
 	@Transactional
-	public Map<String, Integer> analyseUserByLocation(List<UserDetailsDTO> dto){
+	public Map<String, Integer> analyseUserByLocation(List<UserDetailsDTO> dto) throws Exception{
 		Map<String, Integer> map = new HashMap<String, Integer>();
 		List<String> provedLocationList = new ArrayList<String>();
 		int positiveCount = 0;

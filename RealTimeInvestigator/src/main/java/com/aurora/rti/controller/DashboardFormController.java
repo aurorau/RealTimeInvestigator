@@ -29,7 +29,7 @@ import com.aurora.rti.util.UserDetailsDTO;
 @RestController
 @RequestMapping("/dashboardFormController")
 public class DashboardFormController {
-	//private static final Logger logger = Logger.getLogger(DashboardFormController.class);
+
 	private ProxyDetailsService proxyDetailsService = null;
 	private CommonService commonService = null;
 	 
@@ -71,34 +71,30 @@ public class DashboardFormController {
 	 }
 	@RequestMapping(method = RequestMethod.GET, value="/getUserDetailsBySessionId")
 	@ControllerLoggable
-	public ModelAndView getUserDetailsBySessionId(HttpServletRequest request, HttpServletResponse response){
+	public ModelAndView getUserDetailsBySessionId(HttpServletRequest request, HttpServletResponse response) throws Exception{
 	     Long sessionPK = Long.parseLong(request.getParameter("sid"));
 	     List<UserDetailsDTO> list = null;
 	     
 		 Model model = new ExtendedModelMap();
 		 ParamEncoder paramEncoder = new ParamEncoder(Constants.USER_DETAILS);
-		 
-	    	try{
-	    		String sortField = ServletRequestUtils.getStringParameter(request, paramEncoder.encodeParameterName(TableTagParameters.PARAMETER_SORT));
-	    		int order = ServletRequestUtils.getIntParameter(request, paramEncoder.encodeParameterName(TableTagParameters.PARAMETER_ORDER), 0);
-	    		int page = ServletRequestUtils.getIntParameter(request, paramEncoder.encodeParameterName(TableTagParameters.PARAMETER_PAGE), 0);
-	    		int start = (page>0) ? (page - 1) * Constants.GRID_TABLE_SIZE : 0;
-	    		String searchq = ServletRequestUtils.getStringParameter(request, Constants.PARAMETER_SEARCH);
-			
-	    		list = commonService.getUserDetailsBySessionId(sortField,order,start, Constants.GRID_TABLE_SIZE, searchq, sessionPK);
-	    		int listCount = commonService.getUserDetailsCountBySessionId(searchq, sessionPK);
-			
-	    		request.setAttribute(Constants.TABLE_SIZE, listCount );
-	    		request.setAttribute(Constants.GRID_TABLE_SIZE_KEY, Constants.GRID_TABLE_SIZE);
-	    		model.addAttribute(Constants.USER_DETAILS, list);
-	    	} catch (Exception e) {
-	    		//logger.error("++++++++++ Error in getUserDetailsBySessionId in DashboardFormController :"+e);
-	    	}
+
+		 String sortField = ServletRequestUtils.getStringParameter(request, paramEncoder.encodeParameterName(TableTagParameters.PARAMETER_SORT));
+		 int order = ServletRequestUtils.getIntParameter(request, paramEncoder.encodeParameterName(TableTagParameters.PARAMETER_ORDER), 0);
+		 int page = ServletRequestUtils.getIntParameter(request, paramEncoder.encodeParameterName(TableTagParameters.PARAMETER_PAGE), 0);
+		 int start = (page>0) ? (page - 1) * Constants.GRID_TABLE_SIZE : 0;
+		 String searchq = ServletRequestUtils.getStringParameter(request, Constants.PARAMETER_SEARCH);
+	
+		 list = commonService.getUserDetailsBySessionId(sortField,order,start, Constants.GRID_TABLE_SIZE, searchq, sessionPK);
+		 int listCount = commonService.getUserDetailsCountBySessionId(searchq, sessionPK);
+	
+		 request.setAttribute(Constants.TABLE_SIZE, listCount );
+		 request.setAttribute(Constants.GRID_TABLE_SIZE_KEY, Constants.GRID_TABLE_SIZE);
+		 model.addAttribute(Constants.USER_DETAILS, list);
 		 return new ModelAndView("pages/dynamicTables/dynamicUserDetailsTable", model.asMap());
 	}
 	
 	 @RequestMapping(method = RequestMethod.GET, value = "/getDeviceCount")
-     public ResponseEntity<ResponseClass> getDeviceCount(HttpServletRequest request, HttpServletResponse response){
+     public ResponseEntity<ResponseClass> getDeviceCount(HttpServletRequest request, HttpServletResponse response) throws Exception{
 
 		 HttpHeaders headers = new HttpHeaders();
 		 headers.set("Access-Control-Allow-Origin", "*");
@@ -115,7 +111,7 @@ public class DashboardFormController {
 	 }
 	 
 	 @RequestMapping(method = RequestMethod.GET, value = "/getHeaderDetailsData")
-     public ResponseEntity<ResponseClass> getHeaderDetailsData(HttpServletRequest request, HttpServletResponse response){
+     public ResponseEntity<ResponseClass> getHeaderDetailsData(HttpServletRequest request, HttpServletResponse response) throws Exception{
 
 		 HttpHeaders headers = new HttpHeaders();
 		 headers.set("Access-Control-Allow-Origin", "*");
@@ -132,7 +128,7 @@ public class DashboardFormController {
 	 }
 	 
 	 @RequestMapping(method = RequestMethod.GET, value = "/getAnalyseData")
-     public ResponseEntity<ResponseClass> getAnalyseData(HttpServletRequest request, HttpServletResponse response){
+     public ResponseEntity<ResponseClass> getAnalyseData(HttpServletRequest request, HttpServletResponse response) throws Exception{
 
 		 HttpHeaders headers = new HttpHeaders();
 		 headers.set("Access-Control-Allow-Origin", "*");
@@ -149,7 +145,7 @@ public class DashboardFormController {
 	 }
 	 
 	 @RequestMapping(method = RequestMethod.GET, value = "/getProxyDetails")
-     public ResponseEntity<ResponseClass> getProxyDetails(HttpServletRequest request, HttpServletResponse response){
+     public ResponseEntity<ResponseClass> getProxyDetails(HttpServletRequest request, HttpServletResponse response) throws Exception{
 
 		 HttpHeaders headers = new HttpHeaders();
 		 headers.set("Access-Control-Allow-Origin", "*");

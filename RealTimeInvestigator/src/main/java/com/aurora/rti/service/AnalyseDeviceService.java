@@ -7,6 +7,6 @@ import com.aurora.rti.util.UserDetailsDTO;
 
 public interface AnalyseDeviceService {
 
-	Map<String, Object> deviceIdenticication(List<UserDetailsDTO> list);
+	Map<String, Object> deviceIdenticication(List<UserDetailsDTO> list) throws Exception;
 
 }

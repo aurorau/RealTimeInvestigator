@@ -5,7 +5,7 @@ import com.aurora.rti.util.EventDetailsDTO;
 
 public interface SessionDetailsService {
 
-	String saveSessionDetails(EventDetailsDTO dto);
-	String heartBeat(HttpServletRequest request);
-	void changeSessionStatus();
+	String saveSessionDetails(EventDetailsDTO dto) throws Exception;
+	String heartBeat(HttpServletRequest request) throws Exception;
+	void changeSessionStatus() throws Exception;
 }

@@ -31,7 +31,7 @@ public class RTIFormController {
 	}
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/heartBeat")
-    public @ResponseBody ResponseClass heartBeat(HttpServletRequest request, HttpServletResponse response){
+    public @ResponseBody ResponseClass heartBeat(HttpServletRequest request, HttpServletResponse response) throws Exception{
 		response.setHeader("Access-Control-Allow-Origin", "*");
 		response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
 		response.setHeader("Access-Control-Max-Age", "3600");
@@ -45,7 +45,7 @@ public class RTIFormController {
 	}
 	
 	@RequestMapping(method = RequestMethod.POST, value = "/postEventDetails")
-    public @ResponseBody ResponseClass postEventDetails(HttpServletRequest request, HttpServletResponse response,Device device){
+    public @ResponseBody ResponseClass postEventDetails(HttpServletRequest request, HttpServletResponse response,Device device) throws Exception{
 		
 		ResponseClass res = new ResponseClass();
 		

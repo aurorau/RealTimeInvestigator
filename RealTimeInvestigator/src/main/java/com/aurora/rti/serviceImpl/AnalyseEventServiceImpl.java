@@ -32,48 +32,46 @@ public class AnalyseEventServiceImpl implements AnalyseEventService {
 	}
 
 	@Transactional
-	public Map<String, Object> getHeaderDetailsData(List<UserDetailsDTO> dto) {
+	public Map<String, Object> getHeaderDetailsData(List<UserDetailsDTO> dto) throws Exception{
 		Map<String, Object> map = new HashMap<String, Object>();
-		try {
-			int totalCount = dto.size();
-			long timeDiffer = commonService.getTimeDifference(dto.get(0).getZoneDateTime(), dto.get(dto.size()-1).getZoneDateTime()); // staying time
-			int userStayingTime = (int) (timeDiffer/60000);
-			int avgTimeTwoEvent = 0;
-			long timeDiffer1 = 0;
-			long maxIdleTime = 0;
-			String lastAccessTime = null;
-			String firstAccessTime = null;
-			int numOfSessionTimeOut = 0;
-			int sessionTimeOutCount = 0;
-			
-			for(int x = 0; x<dto.size(); x++) { //getting time difference each consecutive events
-				if((x+1) <dto.size()){
-					long mxTD = commonService.getTimeDifference(dto.get(x).getZoneDateTime(),dto.get(x+1).getZoneDateTime());
-					timeDiffer1 += mxTD;
-					
-					if(mxTD > maxIdleTime) {
-						maxIdleTime = mxTD;
-					}
+
+		int totalCount = dto.size();
+		long timeDiffer = commonService.getTimeDifference(dto.get(0).getZoneDateTime(), dto.get(dto.size()-1).getZoneDateTime()); // staying time
+		int userStayingTime = (int) (timeDiffer/60000);
+		int avgTimeTwoEvent = 0;
+		long timeDiffer1 = 0;
+		long maxIdleTime = 0;
+		String lastAccessTime = null;
+		String firstAccessTime = null;
+		int numOfSessionTimeOut = 0;
+		int sessionTimeOutCount = 0;
+		
+		for(int x = 0; x<dto.size(); x++) { //getting time difference each consecutive events
+			if((x+1) <dto.size()){
+				long mxTD = commonService.getTimeDifference(dto.get(x).getZoneDateTime(),dto.get(x+1).getZoneDateTime());
+				timeDiffer1 += mxTD;
+				
+				if(mxTD > maxIdleTime) {
+					maxIdleTime = mxTD;
 				}
 			}
-			SessionDetails sessionDetails = sessionDetailsDao.getById(dto.get(0).getSid());
-			sessionTimeOutCount = sessionDetailsDao.getSessionTimeOutCountBySessionId(sessionDetails.getSessionId());
-			
-			numOfSessionTimeOut = sessionTimeOutCount;
-			lastAccessTime = dto.get(0).getZoneDateTime();
-			firstAccessTime = dto.get(dto.size()-1).getZoneDateTime();
-			avgTimeTwoEvent = (int)(timeDiffer1/totalCount)/1000; 
-			
-			map.put("MAX_IDLE_TIME", (int)(maxIdleTime/60000));
-			map.put("TOTAL_COUNT", totalCount);
-			map.put("USER_STAYING_TIME", userStayingTime);
-			map.put("AVG_TIME_TWO_EVENT", avgTimeTwoEvent);
-			map.put("LAST_ACCESS_TIME", lastAccessTime);
-			map.put("FIRST_ACCESS_TIME", firstAccessTime);
-			map.put("NUM_OF_SESSION_TIMEOUT", numOfSessionTimeOut);
-		} catch (Exception e){
-			//logger.error("+++++++++ Error in getHeaderDetailsData in AnalyseEventServiceImpl :"+e);
 		}
+		SessionDetails sessionDetails = sessionDetailsDao.getById(dto.get(0).getSid());
+		sessionTimeOutCount = sessionDetailsDao.getSessionTimeOutCountBySessionId(sessionDetails.getSessionId());
+		
+		numOfSessionTimeOut = sessionTimeOutCount;
+		lastAccessTime = dto.get(0).getZoneDateTime();
+		firstAccessTime = dto.get(dto.size()-1).getZoneDateTime();
+		avgTimeTwoEvent = (int)(timeDiffer1/totalCount)/1000; 
+		
+		map.put("MAX_IDLE_TIME", (int)(maxIdleTime/60000));
+		map.put("TOTAL_COUNT", totalCount);
+		map.put("USER_STAYING_TIME", userStayingTime);
+		map.put("AVG_TIME_TWO_EVENT", avgTimeTwoEvent);
+		map.put("LAST_ACCESS_TIME", lastAccessTime);
+		map.put("FIRST_ACCESS_TIME", firstAccessTime);
+		map.put("NUM_OF_SESSION_TIMEOUT", numOfSessionTimeOut);
+
 		return map;
 	}
 	

@@ -23,7 +23,7 @@ public class ExceptionHandlingAspect {
 		try {
 			object =  proceedingJoinPoint.proceed();
 		} catch (Exception e) {
-			System.err.println("Exception in Service :"+proceedingJoinPoint.getSignature()+"-"+e);
+			System.err.println("###############  Exception in Service :"+proceedingJoinPoint.getSignature()+"-"+e.getMessage());
 		} 
 		System.err.println("Exit :"+proceedingJoinPoint.getSignature());
 		return object;

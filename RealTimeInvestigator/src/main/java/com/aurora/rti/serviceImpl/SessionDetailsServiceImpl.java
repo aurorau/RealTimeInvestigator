@@ -39,77 +39,66 @@ public class SessionDetailsServiceImpl implements SessionDetailsService {
 	}
 	
 	@Transactional
-	public String saveSessionDetails(EventDetailsDTO dto) {
+	public String saveSessionDetails(EventDetailsDTO dto) throws Exception {
 		String res = Constants.FAIL;
 		String sessionId = null;
 		String currentTime = commonService.getServerTime();
 		sessionId = dto.getSessionID();
 		 
 		SessionDetails sessionDetails = null;
-			
-		try {
-			sessionDetails = sessionDetailsDao.getSessionDetailsByCreationTimeById(1L, sessionId);
+		sessionDetails = sessionDetailsDao.getSessionDetailsByCreationTimeById(1L, sessionId);
 
-			if(sessionDetails == null) {
-				sessionDetails = new SessionDetails();
-				sessionDetails.setSessionId(sessionId);
-				sessionDetails.setSessionAccessCount(1L);
-				sessionDetails.setSessionCreatedTime(currentTime);
-				sessionDetails.setLastAccessTime(currentTime);
-				sessionDetails.setHeartBeatTime(commonService.getServerTime());
-				sessionDetails.setStatus(State.ACTIVE.getName());
-			} else {
-				sessionDetails = sessionDetailsDao.getById(sessionDetails.getSID());
-				sessionDetails.setSessionAccessCount(sessionDetails.getSessionAccessCount()+1);
-				sessionDetails.setLastAccessTime(currentTime);
-				sessionDetails.setStatus(State.ACTIVE.getName());
-			}
-			//sessionDetailsDao.saveSessionDetails(sessionDetails);
-			String status = deviceDetailsService.saveDeviceDetails(dto, sessionDetails);
-		
-			if(status.equalsIgnoreCase(Constants.SUCCESS)) {
-				res = Constants.SUCCESS;
-			}
-		} catch(Exception e) {
-			//logger.error("+++++++++ Error in saveSessionDetails in SessionDetailsServiceImpl :"+e);
+		if(sessionDetails == null) {
+			sessionDetails = new SessionDetails();
+			sessionDetails.setSessionId(sessionId);
+			sessionDetails.setSessionAccessCount(1L);
+			sessionDetails.setSessionCreatedTime(currentTime);
+			sessionDetails.setLastAccessTime(currentTime);
+			sessionDetails.setHeartBeatTime(commonService.getServerTime());
+			sessionDetails.setStatus(State.ACTIVE.getName());
+		} else {
+			sessionDetails = sessionDetailsDao.getById(sessionDetails.getSID());
+			sessionDetails.setSessionAccessCount(sessionDetails.getSessionAccessCount()+1);
+			sessionDetails.setLastAccessTime(currentTime);
+			sessionDetails.setStatus(State.ACTIVE.getName());
 		}
+		//sessionDetailsDao.saveSessionDetails(sessionDetails);
+		String status = deviceDetailsService.saveDeviceDetails(dto, sessionDetails);
+	
+		if(status.equalsIgnoreCase(Constants.SUCCESS)) {
+			res = Constants.SUCCESS;
+		}
+
 		return res;
 	}
 
 	@Transactional
-	public String heartBeat(HttpServletRequest request) {
+	public String heartBeat(HttpServletRequest request) throws Exception {
 		String res = Constants.FAIL;
 		SessionDetails sessionDetails = null;
 		String sessionId = null;
-		try {
-			sessionId = request.getParameter("sessionID");
-			if(!sessionId.equalsIgnoreCase("-1")){
-				sessionDetails = sessionDetailsDao.getSessionDetailsByCreationTimeById(1L, sessionId);
-				if(sessionDetails != null) {
-					sessionDetails.setHeartBeatTime(commonService.getServerTime());
-					sessionDetailsDao.saveSessionDetails(sessionDetails);
-					res = Constants.ACTIVE;
-				} else {
-					res = Constants.INACTIVE;
-				}
+
+		sessionId = request.getParameter("sessionID");
+		if(!sessionId.equalsIgnoreCase("-1")){
+			sessionDetails = sessionDetailsDao.getSessionDetailsByCreationTimeById(1L, sessionId);
+			if(sessionDetails != null) {
+				sessionDetails.setHeartBeatTime(commonService.getServerTime());
+				sessionDetailsDao.saveSessionDetails(sessionDetails);
+				res = Constants.ACTIVE;
+			} else {
+				res = Constants.INACTIVE;
 			}
-		} catch(Exception e){
-			//logger.error("+++++++++ Error in heartBeat in SessionDetailsServiceImpl :"+e);
 		}
+
 		return res;
 	}
 	
 	@Transactional
 	@Scheduled(fixedDelay =60000)
-	public void changeSessionStatus() {
+	public void changeSessionStatus() throws Exception {
 		String currentTime = commonService.getServerTime();
 		String beforeTime = commonService.beforeTime(-3);
 		String beforeHeartBeatTime = commonService.beforeTime(-31);
-		try{
-			sessionDetailsDao.changeSessionStatus(currentTime, beforeTime, beforeHeartBeatTime);
-		} catch(Exception e){
-			//logger.error("+++++++++ Error in changeSessionStatus in SessionDetailsServiceImpl :"+e);
-		}
-		
+		sessionDetailsDao.changeSessionStatus(currentTime, beforeTime, beforeHeartBeatTime);
 	}
 }

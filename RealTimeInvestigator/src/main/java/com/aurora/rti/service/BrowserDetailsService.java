@@ -10,9 +10,9 @@ import com.aurora.rti.util.UserDetailsDTO;
 
 public interface BrowserDetailsService {
 
-	String saveBrowserDetails(EventDetailsDTO dto,SessionDetails sessionDetails, DeviceDetails deviceDetails,EventDetails eventDetails);
-	List<UserDetailsDTO> analyseUserBySessionId(Long sid);
-	List<UserDetailsDTO> getUserDetailsBySessionId(String sortField, int order,int start, int gridTableSize, String searchq, Long sessionPK);
-	int getUserDetailsCountBySessionId(String searchq, Long sessionPK);
+	String saveBrowserDetails(EventDetailsDTO dto,SessionDetails sessionDetails, DeviceDetails deviceDetails,EventDetails eventDetails) throws Exception;
+	List<UserDetailsDTO> analyseUserBySessionId(Long sid) throws Exception;
+	List<UserDetailsDTO> getUserDetailsBySessionId(String sortField, int order,int start, int gridTableSize, String searchq, Long sessionPK) throws Exception;
+	int getUserDetailsCountBySessionId(String searchq, Long sessionPK) throws Exception;
 
 }

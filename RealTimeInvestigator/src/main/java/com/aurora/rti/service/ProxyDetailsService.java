@@ -9,8 +9,8 @@ import com.aurora.rti.util.UserDetailsDTO;
 
 public interface ProxyDetailsService {
 
-	String saveProxyDetailsService(EventDetailsDTO dto, BrowserDetails browserDetails);
-	List<UserDetailsDTO> getPID(List<UserDetailsDTO> list);
-	List<ProxyDetailsDTO> getProxyDetails(Long bid);
+	String saveProxyDetailsService(EventDetailsDTO dto, BrowserDetails browserDetails) throws Exception;
+	List<UserDetailsDTO> getPID(List<UserDetailsDTO> list) throws Exception;
+	List<ProxyDetailsDTO> getProxyDetails(Long bid) throws Exception;
 
 }

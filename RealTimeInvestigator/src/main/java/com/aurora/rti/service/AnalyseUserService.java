@@ -7,6 +7,6 @@ import com.aurora.rti.util.UserDetailsDTO;
 
 public interface AnalyseUserService {
 
-	Map<String, Map<String, Integer>> getUserAnalyseData(List<UserDetailsDTO> list);
+	Map<String, Map<String, Integer>> getUserAnalyseData(List<UserDetailsDTO> list) throws Exception;
 
 }

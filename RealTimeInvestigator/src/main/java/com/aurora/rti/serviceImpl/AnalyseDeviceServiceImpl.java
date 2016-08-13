@@ -14,31 +14,27 @@ public class AnalyseDeviceServiceImpl implements AnalyseDeviceService {
 
 	//private static final Logger logger = Logger.getLogger(AnalyseDeviceServiceImpl.class);
 	
-	public Map<String, Object> deviceIdenticication(List<UserDetailsDTO> list) {
+	public Map<String, Object> deviceIdenticication(List<UserDetailsDTO> list) throws Exception {
 		Map<String, Object> map = null;
 		Map<String,Map<String,Double>> map1 = null;
-		try{
-			map = new HashMap<String,Object>();
-			map1 = new HashMap<String, Map<String,Double>>();
-			
-			Map<String,Double> deviceTypeByEvents = deviceIdentifyByEvents(getUserEventCount(list));
-			Map<String,Double> deviceTypeByOrientation = deviceIdentifyByOrientation(list);
-			Map<String,Double> deviceTypeByDimention = deviceIdentifyByDimention(list);
 
-			if(deviceTypeByEvents != null){
-				map1.put("deviceTypeByEvents",deviceTypeByEvents);
-			}
-			map1.put("deviceTypeByOrientation",deviceTypeByOrientation);
-			map1.put("deviceTypeByDimention",deviceTypeByDimention);
-			
-			map.put("deviceType",calculateWeightsForAtttribute(map1));
-			map.put("deviceTypeByEvents",deviceTypeByEvents);
-			map.put("deviceTypeByOrientation",deviceTypeByOrientation);
-			map.put("deviceTypeByDimention",deviceTypeByDimention);
+		map = new HashMap<String,Object>();
+		map1 = new HashMap<String, Map<String,Double>>();
+		
+		Map<String,Double> deviceTypeByEvents = deviceIdentifyByEvents(getUserEventCount(list));
+		Map<String,Double> deviceTypeByOrientation = deviceIdentifyByOrientation(list);
+		Map<String,Double> deviceTypeByDimention = deviceIdentifyByDimention(list);
 
-		} catch(Exception e){
-			//logger.error("+++++++++++ Error in deviceIdenticication in AnalyseDeviceServiceImpl :"+e);
+		if(deviceTypeByEvents != null){
+			map1.put("deviceTypeByEvents",deviceTypeByEvents);
 		}
+		map1.put("deviceTypeByOrientation",deviceTypeByOrientation);
+		map1.put("deviceTypeByDimention",deviceTypeByDimention);
+		
+		map.put("deviceType",calculateWeightsForAtttribute(map1));
+		map.put("deviceTypeByEvents",deviceTypeByEvents);
+		map.put("deviceTypeByOrientation",deviceTypeByOrientation);
+		map.put("deviceTypeByDimention",deviceTypeByDimention);
 		return map;
 	}
 	
