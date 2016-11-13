@@ -102,6 +102,7 @@ public class BrowserDetailsDaoImpl extends AbstractDao<Integer, BrowserDetails> 
 					.add(Projections.property("eventDetails.timeZone").as("timeZone"))
 					.add(Projections.property("eventDetails.zoneDateTime").as("zoneDateTime"))
 					.add(Projections.property("eventDetails.imageName").as("imageName"))
+					.add(Projections.property("eventDetails.cssStatus").as("cssStatus"))
 					.add(Projections.property("BID").as("bid"))
 					.add(Projections.property("browserName").as("browserName"))
 					.add(Projections.property("browserVersion").as("browserVersion"))

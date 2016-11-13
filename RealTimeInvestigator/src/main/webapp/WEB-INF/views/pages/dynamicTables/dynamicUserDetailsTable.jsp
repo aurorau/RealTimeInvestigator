@@ -16,7 +16,7 @@
      		<label>Yes</label>
      	</c:if>
      </display:column>
-     <display:column property="eventTriggeredTime" title="Triggered Time"/>
+    <%--  <display:column property="eventTriggeredTime" title="Triggered Time"/> --%>
      <display:column property="numOfTaps" title="Taps"/>
     <%--  <display:column property="scrollTop" title="ScrollTop"/> --%>
      <display:column title="Event(X,Y)">
@@ -42,6 +42,7 @@
      		<button onclick="getLocationDetails(${userDetailsTable.bid})" style="height: 20px;"><span class="fa fa-eye proxy"> </span></button>
      	</c:if>
      </display:column>
+      <display:column property="cssStatus" title="CSS Status"/>
      
 <%-- 	 <display:setProperty name="basic.empty.showtable" value="true" />
 	 <display:setProperty name="basic.msg.empty_list" value="" /> --%>

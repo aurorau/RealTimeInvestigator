@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.aurora.rti.annotation.ControllerLoggable;
 import com.aurora.rti.service.CommonService;
 import com.aurora.rti.service.ProxyDetailsService;
+import com.aurora.rti.service.SessionDetailsService;
 import com.aurora.rti.util.Constants;
 import com.aurora.rti.util.ProxyDetailsDTO;
 import com.aurora.rti.util.ResponseClass;
@@ -32,7 +33,8 @@ public class DashboardFormController {
 
 	private ProxyDetailsService proxyDetailsService = null;
 	private CommonService commonService = null;
-	 
+	private SessionDetailsService sessionDetailsService = null;
+	
 	@Autowired
 	public void setproxyDetailsService(ProxyDetailsService proxyDetailsService) {
 		this.proxyDetailsService = proxyDetailsService;
@@ -41,6 +43,11 @@ public class DashboardFormController {
 	@Autowired
 	public void setCommonService(CommonService commonService) {
 		this.commonService = commonService;
+	}
+
+	@Autowired
+	public void setSessionDetailsService(SessionDetailsService sessionDetailsService) {
+		this.sessionDetailsService = sessionDetailsService;
 	}
 
 	@RequestMapping(method = RequestMethod.GET, value="/getCurrentUserCount")
@@ -157,6 +164,26 @@ public class DashboardFormController {
 	     List<ProxyDetailsDTO> list = proxyDetailsService.getProxyDetails(bid);
 	    
 	     res.setResponce(list);
+		 return new ResponseEntity<ResponseClass>(res,headers,HttpStatus.OK);
+	 }
+	 
+	 @RequestMapping(method = RequestMethod.POST, value = "/setCSSandJSStatus")
+     public ResponseEntity<ResponseClass> setCSSandJSStatus(HttpServletRequest request, HttpServletResponse response) throws Exception{
+
+		 HttpHeaders headers = new HttpHeaders();
+		 headers.set("Access-Control-Allow-Origin", "*");
+		 headers.set("Access-Control-Allow-Methods", "GET");
+		 headers.set("Access-Control-Max-Age", "3600");
+		 headers.set("Access-Control-Allow-Headers", "x-requested-with");
+		 
+		 ResponseClass res = new ResponseClass();
+	    
+		 System.out.println("Session Id :"+request.getParameter("sessionId"));
+		 System.out.println("Type:"+request.getParameter("type"));
+		 
+		 String status = sessionDetailsService.changeSessionJSandCSSstatus(request);
+		 
+	     res.setResponce(status);
 		 return new ResponseEntity<ResponseClass>(res,headers,HttpStatus.OK);
 	 }
 }

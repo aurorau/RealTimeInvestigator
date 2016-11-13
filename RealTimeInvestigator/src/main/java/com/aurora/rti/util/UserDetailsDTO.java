@@ -33,6 +33,7 @@ public class UserDetailsDTO {
 	private String firstAccessTime;
 	private String eventStatus = "NOT FRAUD";
 	private String platform;
+	private String cssStatus;
 
 
 	public String getBrowserVersion() {
@@ -215,6 +216,12 @@ public class UserDetailsDTO {
 	}
 	public void setEventCategory(String eventCategory) {
 		this.eventCategory = eventCategory;
+	}
+	public String getCssStatus() {
+		return cssStatus;
+	}
+	public void setCssStatus(String cssStatus) {
+		this.cssStatus = cssStatus;
 	}
 	
 }

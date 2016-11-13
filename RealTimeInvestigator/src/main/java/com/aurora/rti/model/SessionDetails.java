@@ -21,6 +21,8 @@ public class SessionDetails implements Serializable{
 	private String lastAccessTime;
 	private String heartBeatTime;
 	private String status;
+	private String cssStatus;
+	private String jsStatus;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -79,25 +81,34 @@ public class SessionDetails implements Serializable{
 	public void setHeartBeatTime(String heartBeatTime) {
 		this.heartBeatTime = heartBeatTime;
 	}
+	
+	@Column(name="cssStatus", nullable=true, length=20)
+	public String getCssStatus() {
+		return cssStatus;
+	}
+	public void setCssStatus(String cssStatus) {
+		this.cssStatus = cssStatus;
+	}
+	
+	@Column(name="JsStatus", nullable=true, length=20)
+	public String getJsStatus() {
+		return jsStatus;
+	}
+	public void setJsStatus(String jsStatus) {
+		this.jsStatus = jsStatus;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((SID == null) ? 0 : SID.hashCode());
-		result = prime * result
-				+ ((heartBeatTime == null) ? 0 : heartBeatTime.hashCode());
-		result = prime * result
-				+ ((lastAccessTime == null) ? 0 : lastAccessTime.hashCode());
-		result = prime
-				* result
-				+ ((sessionAccessCount == null) ? 0 : sessionAccessCount
-						.hashCode());
-		result = prime
-				* result
-				+ ((sessionCreatedTime == null) ? 0 : sessionCreatedTime
-						.hashCode());
-		result = prime * result
-				+ ((sessionId == null) ? 0 : sessionId.hashCode());
+		result = prime * result + ((cssStatus == null) ? 0 : cssStatus.hashCode());
+		result = prime * result + ((heartBeatTime == null) ? 0 : heartBeatTime.hashCode());
+		result = prime * result + ((jsStatus == null) ? 0 : jsStatus.hashCode());
+		result = prime * result + ((lastAccessTime == null) ? 0 : lastAccessTime.hashCode());
+		result = prime * result + ((sessionAccessCount == null) ? 0 : sessionAccessCount.hashCode());
+		result = prime * result + ((sessionCreatedTime == null) ? 0 : sessionCreatedTime.hashCode());
+		result = prime * result + ((sessionId == null) ? 0 : sessionId.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		return result;
 	}
@@ -115,10 +126,20 @@ public class SessionDetails implements Serializable{
 				return false;
 		} else if (!SID.equals(other.SID))
 			return false;
+		if (cssStatus == null) {
+			if (other.cssStatus != null)
+				return false;
+		} else if (!cssStatus.equals(other.cssStatus))
+			return false;
 		if (heartBeatTime == null) {
 			if (other.heartBeatTime != null)
 				return false;
 		} else if (!heartBeatTime.equals(other.heartBeatTime))
+			return false;
+		if (jsStatus == null) {
+			if (other.jsStatus != null)
+				return false;
+		} else if (!jsStatus.equals(other.jsStatus))
 			return false;
 		if (lastAccessTime == null) {
 			if (other.lastAccessTime != null)
@@ -149,11 +170,11 @@ public class SessionDetails implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return "SessionDetails [SID=" + SID + ", sessionId=" + sessionId
-				+ ", sessionCreatedTime=" + sessionCreatedTime
-				+ ", sessionAccessCount=" + sessionAccessCount
-				+ ", lastAccessTime=" + lastAccessTime + ", heartBeatTime="
-				+ heartBeatTime + ", status=" + status + "]";
+		return "SessionDetails [SID=" + SID + ", sessionId=" + sessionId + ", sessionCreatedTime=" + sessionCreatedTime
+				+ ", sessionAccessCount=" + sessionAccessCount + ", lastAccessTime=" + lastAccessTime
+				+ ", heartBeatTime=" + heartBeatTime + ", status=" + status + ", cssStatus=" + cssStatus + ", jsStatus="
+				+ jsStatus + "]";
 	}
+
 	
 }

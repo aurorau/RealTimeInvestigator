@@ -32,6 +32,7 @@ public class EventDetails implements Serializable {
 	private String timeZone;
 	private String zoneDateTime;
 	private String imageName;
+	private String cssStatus;
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -177,6 +178,14 @@ public class EventDetails implements Serializable {
 	public void setImageName(String imageName) {
 		this.imageName = imageName;
 	}
+	
+	@Column(name="css_status", nullable=true, length=20)
+	public String getCssStatus() {
+		return cssStatus;
+	}
+	public void setCssStatus(String cssStatus) {
+		this.cssStatus = cssStatus;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -184,6 +193,7 @@ public class EventDetails implements Serializable {
 		result = prime * result + ((EID == null) ? 0 : EID.hashCode());
 		result = prime * result + ((coordinateX == null) ? 0 : coordinateX.hashCode());
 		result = prime * result + ((coordinateY == null) ? 0 : coordinateY.hashCode());
+		result = prime * result + ((cssStatus == null) ? 0 : cssStatus.hashCode());
 		result = prime * result + ((eventCategory == null) ? 0 : eventCategory.hashCode());
 		result = prime * result + ((eventName == null) ? 0 : eventName.hashCode());
 		result = prime * result + ((eventTypes == null) ? 0 : eventTypes.hashCode());
@@ -224,6 +234,11 @@ public class EventDetails implements Serializable {
 			if (other.coordinateY != null)
 				return false;
 		} else if (!coordinateY.equals(other.coordinateY))
+			return false;
+		if (cssStatus == null) {
+			if (other.cssStatus != null)
+				return false;
+		} else if (!cssStatus.equals(other.cssStatus))
 			return false;
 		if (eventCategory == null) {
 			if (other.eventCategory != null)
@@ -309,6 +324,9 @@ public class EventDetails implements Serializable {
 				+ ", coordinateY=" + coordinateY + ", screenWidth=" + screenWidth + ", screenHeight=" + screenHeight
 				+ ", orientation=" + orientation + ", viewportHeight=" + viewportHeight + ", viewportWidth="
 				+ viewportWidth + ", numOfTaps=" + numOfTaps + ", tagName=" + tagName + ", scrollTop=" + scrollTop
-				+ ", timeZone=" + timeZone + ", zoneDateTime=" + zoneDateTime + ", imageName=" + imageName + "]";
+				+ ", timeZone=" + timeZone + ", zoneDateTime=" + zoneDateTime + ", imageName=" + imageName
+				+ ", cssStatus=" + cssStatus + "]";
 	}
+
+
 }

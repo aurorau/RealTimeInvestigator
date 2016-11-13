@@ -31,6 +31,7 @@ public class EventDetailsDTO {
 	private String remoteAddress;
 	private String deviceType;
 	private String devicePlatform;
+	private String cssStatus;
 	
 	public String getEventType() {
 		return eventType;
@@ -205,6 +206,12 @@ public class EventDetailsDTO {
 	}
 	public void setDevicePlatform(String devicePlatform) {
 		this.devicePlatform = devicePlatform;
+	}
+	public String getCssStatus() {
+		return cssStatus;
+	}
+	public void setCssStatus(String cssStatus) {
+		this.cssStatus = cssStatus;
 	}
 	
 }

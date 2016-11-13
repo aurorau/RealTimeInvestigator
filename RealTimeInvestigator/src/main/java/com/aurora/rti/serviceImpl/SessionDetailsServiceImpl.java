@@ -1,5 +1,8 @@
 package com.aurora.rti.serviceImpl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -56,10 +59,15 @@ public class SessionDetailsServiceImpl implements SessionDetailsService {
 			sessionDetails.setLastAccessTime(currentTime);
 			sessionDetails.setHeartBeatTime(commonService.getServerTime());
 			sessionDetails.setStatus(State.ACTIVE.getName());
+			sessionDetails.setCssStatus("1");
+			sessionDetails.setJsStatus("1");
 		} else {
 			sessionDetails = sessionDetailsDao.getById(sessionDetails.getSID());
 			sessionDetails.setSessionAccessCount(sessionDetails.getSessionAccessCount()+1);
 			sessionDetails.setLastAccessTime(currentTime);
+			if(dto.getEventType().equalsIgnoreCase("RF")){
+				sessionDetails.setCssStatus(dto.getCssStatus());
+			}
 			sessionDetails.setStatus(State.ACTIVE.getName());
 		}
 		//sessionDetailsDao.saveSessionDetails(sessionDetails);
@@ -100,5 +108,50 @@ public class SessionDetailsServiceImpl implements SessionDetailsService {
 		String beforeTime = commonService.beforeTime(-3);
 		String beforeHeartBeatTime = commonService.beforeTime(-31);
 		sessionDetailsDao.changeSessionStatus(currentTime, beforeTime, beforeHeartBeatTime);
+	}
+
+	@Transactional
+	public Map<String, String> getSessionJSandCSSstatus(HttpServletRequest request) throws Exception{
+		SessionDetails sessionDetails = null;
+		String sessionId = null;
+		Map<String, String> returnMap = new HashMap<String, String>();
+
+		sessionId = request.getParameter("sessionID");
+		if(!sessionId.equalsIgnoreCase("-1")){
+			sessionDetails = sessionDetailsDao.getSessionDetailsByCreationTimeById(1l, sessionId);
+			returnMap.put("cssStatus", sessionDetails.getCssStatus());
+			returnMap.put("jsStatus", sessionDetails.getJsStatus());
+		}
+		return returnMap;
+	}
+	
+	@Transactional
+	public String changeSessionJSandCSSstatus(HttpServletRequest request) throws Exception {
+		String res = Constants.FAIL;
+		SessionDetails sessionDetails = null;
+		String sessionId = null;
+
+		sessionId = request.getParameter("sessionId");
+		if(!sessionId.equalsIgnoreCase("-1")){
+			sessionDetails = sessionDetailsDao.getById(Long.parseLong(sessionId));
+			if(sessionDetails != null) {
+				if (request.getParameter("type").equalsIgnoreCase("css")){
+					if(sessionDetails.getCssStatus().equalsIgnoreCase("1")){
+						sessionDetails.setCssStatus("0");
+					} else {
+						sessionDetails.setCssStatus("1");
+					}
+				} else {
+					if(sessionDetails.getJsStatus().equalsIgnoreCase("1")){
+						sessionDetails.setJsStatus("0");
+					} else {
+						sessionDetails.setJsStatus("1");
+					}
+				}
+				sessionDetailsDao.saveSessionDetails(sessionDetails);
+				res = Constants.SUCCESS;
+			} 
+		}
+		return res;
 	}
 }

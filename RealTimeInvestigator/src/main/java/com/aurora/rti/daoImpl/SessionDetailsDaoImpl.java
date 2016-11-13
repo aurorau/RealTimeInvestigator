@@ -99,6 +99,7 @@ public class SessionDetailsDaoImpl extends AbstractDao<Integer, SessionDetails> 
 		criteria.setFirstResult(start)
         		.setMaxResults(gridTableSize);
 		criteria.setProjection(Projections.projectionList()
+				.add(Projections.property("cssStatus").as("cssStatus"))
 				.add(Projections.property("SID").as("sid")));
 		dtoList = criteria.setResultTransformer(Transformers.aliasToBean(UserCountDTO.class)).list();
 		

@@ -35,6 +35,7 @@ $(document).ready(function() {
 	sendEventDetailsToController();
 	setInterval(function(){ 
 		heartBeat();
+		//getSessionJSandCSSstatus();
 	},20000);
 });
 
@@ -49,6 +50,7 @@ function heartBeat(){
 		console.log(data.status);
 	});
 }
+
 
 function identifyDeviceWidthHeight(){
 	var deviceMinWidthStatus = window.matchMedia('(min-device-width: '+screen.width+'px)').matches;

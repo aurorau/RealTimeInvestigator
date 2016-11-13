@@ -37,6 +37,19 @@ function getDeviceCount(){
 	});
 }
 
+function setCSSandJSStatus (sessionId, type){
+	
+	$.post('dashboardFormController/setCSSandJSStatus', {
+		sessionId : sessionId,
+		type : type
+	}, function(data) {
+  		//$("#"+sessionId).val().trim();
+	});
+	
+	
+	
+}
+
 function getUserDetailsBySessionId(sessionId,userId){
 	var q =$('#addDetailsSearchId').val();
 	var dv= "";

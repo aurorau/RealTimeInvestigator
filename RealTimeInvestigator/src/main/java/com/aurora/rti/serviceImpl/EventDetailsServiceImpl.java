@@ -50,6 +50,7 @@ public class EventDetailsServiceImpl implements EventDetailsService {
 		 String elementScrollTopPx = dto.getElementScrollTop();
 		 String scrollTop = dto.getScrollTopPx();
 		 String imageName = dto.getImageName();
+		 String cssStatus = dto.getCssStatus();
 		 
 		 EventDetails eventDetails = new EventDetails();
 		 
@@ -63,6 +64,7 @@ public class EventDetailsServiceImpl implements EventDetailsService {
 		 eventDetails.setViewportHeight(viewportHeight);
 		 eventDetails.setViewportWidth(viewportWidth);
 		 eventDetails.setTagName(tagName);
+		 eventDetails.setCssStatus(cssStatus);
 		 
 		 if(imageName.equalsIgnoreCase("-1")){
 			 eventDetails.setImageName(Constants.NO_IMG);

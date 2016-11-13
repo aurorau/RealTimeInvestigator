@@ -4,6 +4,7 @@ public class UserCountDTO {
 	private Long sid;
 	private int countId;
 	private String deviceType;
+	private String cssStatus;
 	
 	public Long getSid() {
 		return sid;
@@ -22,6 +23,12 @@ public class UserCountDTO {
 	}
 	public void setDeviceType(String deviceType) {
 		this.deviceType = deviceType;
+	}
+	public String getCssStatus() {
+		return cssStatus;
+	}
+	public void setCssStatus(String cssStatus) {
+		this.cssStatus = cssStatus;
 	}
 	
 }

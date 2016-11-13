@@ -5,8 +5,11 @@
 <html>
 
 <head>
-	<script src="static/script/jquery.min.js"></script>
+	<script src="static/script/jquery.min.js"></script>    
+	<!-- JQ-Mobile JS -->
+   <!--  <script src="static/script/jquery.mobile-1.4.5.js"></script> -->
 	<script src="static/script/rtiNew.js"></script>
+<!-- 	 <script src="static/script/jqMobile.js"></script> -->
 	<script language="JavaScript" src="http://www.geoplugin.net/javascript.gp" type="text/javascript"></script>
 
 <title>RTI</title>
@@ -15,12 +18,11 @@
 <meta name="_csrf_header" content="${_csrf.headerName}"/> --%>
 <meta name="description" content="website description" />
 <meta name="keywords" content="website keywords, website keywords" />
-<meta http-equiv="content-type"
-	content="text/html; charset=windows-1252" />
+<meta http-equiv="content-type" content="text/html; charset=windows-1252" />
 <link rel="stylesheet" type="text/css" href="static/css/style.css" />
 </head>
 
-<body>
+<body id="page-top">
 	<div id="main">
 		<div id="header">
 			<div id="logo">

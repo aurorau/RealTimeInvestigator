@@ -1,5 +1,7 @@
 package com.aurora.rti.controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,10 +46,25 @@ public class RTIFormController {
 		return res;
 	}
 	
+	@RequestMapping(method = RequestMethod.GET, value = "/getSessionJSandCSSstatus")
+    public @ResponseBody ResponseClass getSessionJSandCSSstatus(HttpServletRequest request, HttpServletResponse response) throws Exception{
+		response.setHeader("Access-Control-Allow-Origin", "*");
+		response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+		response.setHeader("Access-Control-Max-Age", "3600");
+		response.setHeader("Access-Control-Allow-Headers", "x-requested-with");
+		ResponseClass res = new ResponseClass();
+		
+		Map<String, String> jsCssStatusMap = sessionDetailsService.getSessionJSandCSSstatus(request);
+		res.setResponce(jsCssStatusMap);
+		
+		return res;
+	}
+	
 	@RequestMapping(method = RequestMethod.POST, value = "/postEventDetails")
     public @ResponseBody ResponseClass postEventDetails(HttpServletRequest request, HttpServletResponse response,Device device) throws Exception{
 		
 		ResponseClass res = new ResponseClass();
+	
 		
 		EventDetailsDTO dto = new EventDetailsDTO();
 		dto.setCoordinateX(request.getParameter("coordinateX"));
@@ -79,6 +96,7 @@ public class RTIFormController {
 		dto.setxForwarded(request.getHeader("X-FORWARDED-FOR"));
 		dto.setDeviceType(commonService.deviceIdentification(device));
 		dto.setDevicePlatform(device.getDevicePlatform().toString());
+		dto.setCssStatus(request.getParameter("cssStatus"));
 		
         if(dto.getSessionID() == null || dto.getSessionID().equalsIgnoreCase("")){
         	dto.setSessionID(request.getSession().getId());
